@@ -17,6 +17,7 @@
 </nav>
 <div class="users view large-9 medium-8 columns content">
     <h3><?= h($user->id) ?></h3>
+    <h4><?= $this->Html->link(__('Reset Password'), ['action' => 'change-password', $user->id]) ?></h4>
     <table class="vertical-table">
         <tr>
             <th scope="row"><?= __('Email') ?></th>
@@ -27,8 +28,12 @@
             <td><?= h($user->password) ?></td>
         </tr>
         <tr>
-            <th scope="row"><?= __('Fullname') ?></th>
-            <td><?= h($user->fullname) ?></td>
+            <th scope="row"><?= __('First Name') ?></th>
+            <td><?= h($user->firstname) ?></td>
+        </tr>
+        <tr>
+            <th scope="row"><?= __('Last Name') ?></th>
+            <td><?= h($user->lastname) ?></td>
         </tr>
         <tr>
             <th scope="row"><?= __('Id') ?></th>
@@ -37,6 +42,20 @@
         <tr>
             <th scope="row"><?= __('Dob') ?></th>
             <td><?= h($user->dob) ?></td>
+        </tr>
+        <tr>
+            <th scope="row"><?= __('Location') ?></th>
+            <td><?= h($user->location) ?></td>
+        </tr>
+        <tr>
+            <th scope="row"><?= __('Profile picture') ?></th>
+            <?php if ($user->upload) :
+            $this->log($user->upload);
+                ?>
+            <td><?= h($user->upload) ?></td>
+            <?php else : ?>
+            <td>No profile picture :(</td>
+            <?php endif; ?>
         </tr>
     </table>
     <div class="related">
@@ -65,12 +84,11 @@
         <?php endif; ?>
     </div>
 </div>
-<div class="related">
+<div class="related view large-9 medium-8 columns content">
     <h4><?= __('Related Users') ?></h4>
     <?php if (!empty($related_users)): ?>
         <table cellpadding="0" cellspacing="0">
             <tr>
-                <th scope="col"><?= __('Id') ?></th>
                 <th scope="col"><?= __('Name') ?></th>
                 <th scope="col"><?= __('Common Interests') ?></th>
             </tr>

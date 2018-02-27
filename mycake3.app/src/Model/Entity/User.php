@@ -10,7 +10,10 @@ use Cake\Auth\DefaultPasswordHasher;
  * @property int $id
  * @property string $email
  * @property string $password
- * @property string $fullname
+ * @property string $firstname
+ * @property string $lastname
+ * @property string $location
+ * @property string $upload
  * @property \Cake\I18n\FrozenDate $dob
  *
  * @property \App\Model\Entity\Interest[] $interests
@@ -30,8 +33,11 @@ class User extends Entity
     protected $_accessible = [
         'email' => true,
         'password' => true,
-        'fullname' => true,
+        'firstname' => true,
+        'lastname' => true,
         'dob' => true,
+        'location' => true,
+        'upload' => true,
         'interests' => true
     ];
 

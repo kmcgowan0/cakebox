@@ -23,10 +23,13 @@
     <fieldset>
         <legend><?= __('Edit User') ?></legend>
         <?php
-            echo $this->Form->control('email');
-            echo $this->Form->control('password');
-            echo $this->Form->control('fullname');
-            echo $this->Form->control('dob', ['empty' => true]);
+        echo $this->Form->control('email');
+        echo $this->Form->control('firstname');
+        echo $this->Form->control('lastname');
+        echo $this->Form->control('dob', ['empty' => true]);
+        echo $this->Form->control('location');
+        echo '<label for="upload">Profile picture</label>';
+        echo $this->Form->file('upload');
             echo $this->Form->control('interests._ids', ['options' => $interests]);
         ?>
     </fieldset>

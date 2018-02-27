@@ -20,8 +20,10 @@
                 <th scope="col"><?= $this->Paginator->sort('id') ?></th>
                 <th scope="col"><?= $this->Paginator->sort('email') ?></th>
                 <th scope="col"><?= $this->Paginator->sort('password') ?></th>
-                <th scope="col"><?= $this->Paginator->sort('fullname') ?></th>
+                <th scope="col"><?= $this->Paginator->sort('firstname') ?></th>
+                <th scope="col"><?= $this->Paginator->sort('lastname') ?></th>
                 <th scope="col"><?= $this->Paginator->sort('dob') ?></th>
+                <th scope="col"><?= $this->Paginator->sort('location') ?></th>
                 <th scope="col" class="actions"><?= __('Actions') ?></th>
             </tr>
         </thead>
@@ -31,8 +33,10 @@
                 <td><?= $this->Number->format($user->id) ?></td>
                 <td><?= h($user->email) ?></td>
                 <td><?= h($user->password) ?></td>
-                <td><?= h($user->fullname) ?></td>
+                <td><?= h($user->firstname) ?></td>
+                <td><?= h($user->lastname) ?></td>
                 <td><?= h($user->dob) ?></td>
+                <td><?= h($user->location) ?></td>
                 <td class="actions">
                     <?= $this->Html->link(__('View'), ['action' => 'view', $user->id]) ?>
                     <?= $this->Html->link(__('Edit'), ['action' => 'edit', $user->id]) ?>
