@@ -24,10 +24,6 @@
             <td><?= h($user->email) ?></td>
         </tr>
         <tr>
-            <th scope="row"><?= __('Password') ?></th>
-            <td><?= h($user->password) ?></td>
-        </tr>
-        <tr>
             <th scope="row"><?= __('First Name') ?></th>
             <td><?= h($user->firstname) ?></td>
         </tr>
