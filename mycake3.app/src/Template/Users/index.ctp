@@ -39,7 +39,9 @@
                 <td><?= h($user->location) ?></td>
                 <td class="actions">
                     <?= $this->Html->link(__('View'), ['action' => 'view', $user->id]) ?>
+                    <?php if ($authUser['id'] == $user->id) : ?>
                     <?= $this->Html->link(__('Edit'), ['action' => 'edit', $user->id]) ?>
+                    <?php endif; ?>
                     <?= $this->Form->postLink(__('Delete'), ['action' => 'delete', $user->id], ['confirm' => __('Are you sure you want to delete # {0}?', $user->id)]) ?>
                 </td>
             </tr>
