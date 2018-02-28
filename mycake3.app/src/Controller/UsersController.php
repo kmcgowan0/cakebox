@@ -42,8 +42,6 @@ class UsersController extends AppController
 
         $ids = [];
 
-//        var_dump($this->request->data['upload']);
-
         foreach($user->interests as $interest) {
             $id = $interest->id;
             array_push($ids, $id);
@@ -99,14 +97,42 @@ class UsersController extends AppController
 
                 return $this->redirect(['action' => 'index']);
             }
-
             $this->Flash->error(__('The user could not be saved. Please, try again.'));
             $this->log($this);
         }
 
 
+        if (!empty($this->request->data)) {
+            if (!empty($this->request->data['upload']['name'])) {
 
-//        }
+                $file = $this->request->data['upload'];
+                var_dump($file);
+
+                $ext = substr(strtolower(strrchr($file['name'], '.')), 1); //get the extension
+                var_dump($ext);
+                $arr_ext = ['jpg', 'png']; //set allowed extensions
+                $setNewFileName = time() . "_" . rand(000000, 999999);
+
+                //only process if the extension is valid
+                if (in_array($ext, $arr_ext)) {
+                    //do the actual uploading of the file. First arg is the tmp name, second arg is
+                    //where we are putting it
+                    move_uploaded_file($file['tmp_name'], WWW_ROOT . 'img/' . $setNewFileName . '.' . $ext);
+
+                    //prepare the filename for database entry
+                    $imageFileName = $setNewFileName;
+
+                    $this->subject->entity->image = $imageFileName;
+
+
+                    /*
+                                  $image = new ImageResize('img/reports/' . $imageFileName . '.jpg');
+                                  $image->scale(50);
+                                  $image->save('img/reports/' . $imageFileName . '_thumb.jpg');
+                    */
+                }
+            }
+        }
 
         $interests = $this->Users->Interests->find('list', ['limit' => 200]);
         $this->set(compact('user', 'interests'));
@@ -171,39 +197,6 @@ class UsersController extends AppController
             }
         }
         $this->set('user',$user);
-    }
-
-    public function uploadImage()
-    {
-        if (!empty($this->request->data)) {
-            if (!empty($this->request->data['upload']['name'])) {
-
-                $file = $this->request->data['upload'];
-
-                $ext = substr(strtolower(strrchr($file['name'], '.')), 1); //get the extension
-                $arr_ext = ['jpg']; //set allowed extensions
-                $setNewFileName = time() . "_" . rand(000000, 999999);
-
-                //only process if the extension is valid
-                if (in_array($ext, $arr_ext)) {
-                    //do the actual uploading of the file. First arg is the tmp name, second arg is
-                    //where we are putting it
-                    move_uploaded_file($file['tmp_name'], WWW_ROOT . 'img/reports/' . $setNewFileName . '.' . $ext);
-
-                    //prepare the filename for database entry
-                    $imageFileName = $setNewFileName;
-
-                    $event->subject->entity->image = $imageFileName;
-
-
-                    /*
-                                  $image = new ImageResize('img/reports/' . $imageFileName . '.jpg');
-                                  $image->scale(50);
-                                  $image->save('img/reports/' . $imageFileName . '_thumb.jpg');
-                    */
-                }
-            }
-        }
     }
 
     public function beforeFilter(Event $event)

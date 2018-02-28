@@ -17,11 +17,15 @@
 </nav>
 <div class="users view large-9 medium-8 columns content">
     <h3><?= h($user->id) ?></h3>
-    <h6><?= $this->Html->link(__('Reset Password'), ['action' => 'change-password', $user->id]) ?></h6>
+    <h4><?= $this->Html->link(__('Reset Password'), ['action' => 'change-password', $user->id]) ?></h4>
     <table class="vertical-table">
         <tr>
             <th scope="row"><?= __('Email') ?></th>
             <td><?= h($user->email) ?></td>
+        </tr>
+        <tr>
+            <th scope="row"><?= __('Password') ?></th>
+            <td><?= h($user->password) ?></td>
         </tr>
         <tr>
             <th scope="row"><?= __('First Name') ?></th>
