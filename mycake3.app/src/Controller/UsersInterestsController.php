@@ -2,6 +2,7 @@
 namespace App\Controller;
 
 use App\Controller\AppController;
+use Cake\Log\Log;
 
 /**
  * UsersInterests Controller
@@ -53,14 +54,18 @@ class UsersInterestsController extends AppController
     {
         $usersInterest = $this->UsersInterests->newEntity();
         if ($this->request->is('post')) {
-            $usersInterest = $this->UsersInterests->patchEntity($usersInterest, $this->request->getData());
-            if ($this->UsersInterests->save($usersInterest)) {
-                $this->Flash->success(__('The users interest has been saved.'));
 
-                return $this->redirect(['action' => 'index']);
+                $usersInterest = $this->UsersInterests->patchEntity($usersInterest, $this->request->getData());
+
+                if ($this->UsersInterests->save($usersInterest)) {
+                    $this->Flash->success(__('The users interest ' . $new_entry['interest_id'] . ' has been saved.'));
+
+                    return $this->redirect(['action' => 'index']);
+                }
+                $this->Flash->error(__('The users interest could not be saved. Please, try again.'));
+
             }
-            $this->Flash->error(__('The users interest could not be saved. Please, try again.'));
-        }
+
         $users = $this->UsersInterests->Users->find('list', ['limit' => 200]);
         $interests = $this->UsersInterests->Interests->find('list', ['limit' => 200]);
         $this->set(compact('usersInterest', 'users', 'interests'));

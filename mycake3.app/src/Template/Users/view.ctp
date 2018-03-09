@@ -17,7 +17,10 @@
 </nav>
 <div class="users view large-9 medium-8 columns content">
     <h3><?= h($user->id) ?></h3>
-    <h4><?= $this->Html->link(__('Reset Password'), ['action' => 'change-password', $user->id]) ?></h4>
+    <h6><?= $this->Html->link(__('Send a message'), ['controller' => 'Messages', 'action' => 'compose', $user->id]) ?></h6>
+    <h6><?= $this->Html->link(__('Reset Password'), ['action' => 'password-reset', $user->id]) ?></h6>
+    <h6><?= $this->Html->link(__('Edit Account'), ['action' => 'edit', $user->id]) ?></h6>
+    <h6><?= $this->Html->link(__('Edit Interests'), ['action' => 'edit-interests', $user->id]) ?></h6>
     <table class="vertical-table">
         <tr>
             <th scope="row"><?= __('Email') ?></th>

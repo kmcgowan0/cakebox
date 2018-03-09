@@ -16,11 +16,12 @@
     </ul>
 </nav>
 <div class="interests view large-9 medium-8 columns content">
-    <h3><?= h($interest->name) ?></h3>
+    <?php $name = ucwords($interest->name); ?>
+    <h3><?php echo $name; ?></h3>
     <table class="vertical-table">
         <tr>
             <th scope="row"><?= __('Name') ?></th>
-            <td><?= h($interest->name) ?></td>
+            <td><?php echo $name; ?></td>
         </tr>
         <tr>
             <th scope="row"><?= __('Id') ?></th>
@@ -47,8 +48,7 @@
             <tr>
                 <td><?= h($users->id) ?></td>
                 <td><?= h($users->email) ?></td>
-                <td><?= h($users->password) ?></td>
-                <td><?= h($users->fullname) ?></td>
+                <td><?= h($users->firstname) ?></td>
                 <td><?= h($users->dob) ?></td>
                 <td class="actions">
                     <?= $this->Html->link(__('View'), ['controller' => 'Users', 'action' => 'view', $users->id]) ?>

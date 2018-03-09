@@ -4,6 +4,7 @@ namespace App\Controller;
 use App\Controller\AppController;
 use Cake\Event\Event;
 use Cake\Log\Log;
+use Cake\ORM\TableRegistry;
 
 /**
  * Users Controller
@@ -42,12 +43,12 @@ class UsersController extends AppController
 
         $ids = [];
 
-        foreach($user->interests as $interest) {
+        foreach ($user->interests as $interest) {
             $id = $interest->id;
             array_push($ids, $id);
         }
 
-        $related_users = $this->Users->find()->matching('Interests', function ($q) use($ids) {
+        $related_users = $this->Users->find()->matching('Interests', function ($q) use ($ids) {
             return $q->where(['Interests.id IN' => $ids]);
         });
 
@@ -92,6 +93,7 @@ class UsersController extends AppController
         ]);
         if ($this->request->is(['patch', 'post', 'put'])) {
             $user = $this->Users->patchEntity($user, $this->request->getData());
+            $this->log($this->request->getData(), 'debug');
             if ($this->Users->save($user)) {
                 $this->Flash->success(__('The user has been saved.'));
 
@@ -113,30 +115,31 @@ class UsersController extends AppController
                 $arr_ext = ['jpg', 'png']; //set allowed extensions
                 $setNewFileName = time() . "_" . rand(000000, 999999);
 
-                //only process if the extension is valid
-                if (in_array($ext, $arr_ext)) {
-                    //do the actual uploading of the file. First arg is the tmp name, second arg is
-                    //where we are putting it
-                    move_uploaded_file($file['tmp_name'], WWW_ROOT . 'img/' . $setNewFileName . '.' . $ext);
+        $interests = $this->Users->Interests->find('list', ['limit' => 200]);
+        $this->set(compact('user', 'interests'));
+    }
 
-                    //prepare the filename for database entry
-                    $imageFileName = $setNewFileName;
+    public function editInterests($id = null)
+    {
+        $user = $this->Users->get($id, [
+            'contain' => ['Interests']
+        ]);
+        if ($this->request->is(['patch', 'post', 'put'])) {
+            $user = $this->Users->patchEntity($user, $this->request->getData());
+            $this->log($this->request->getData(), 'debug');
+            if ($this->Users->save($user)) {
+                $this->Flash->success(__('The user has been saved.'));
 
-                    $this->subject->entity->image = $imageFileName;
-
-
-                    /*
-                                  $image = new ImageResize('img/reports/' . $imageFileName . '.jpg');
-                                  $image->scale(50);
-                                  $image->save('img/reports/' . $imageFileName . '_thumb.jpg');
-                    */
-                }
+                return $this->redirect(['action' => 'index']);
             }
+            $this->Flash->error(__('The user could not be saved. Please, try again.'));
+            $this->log($this);
         }
 
         $interests = $this->Users->Interests->find('list', ['limit' => 200]);
         $this->set(compact('user', 'interests'));
     }
+
 
     /**
      * Delete method
@@ -159,14 +162,13 @@ class UsersController extends AppController
     }
 
 
-
     public function login()
     {
         if ($this->request->is('post')) {
             $user = $this->Auth->identify();
             if ($user) {
                 $this->Auth->setUser($user);
-                return $this->redirect('/users/view/' . $this->Auth->user('id'));
+                return $this->redirect($this->Auth->redirectUrl());
             }
             $this->Flash->error('Your username or password is incorrect.');
         }
@@ -180,12 +182,13 @@ class UsersController extends AppController
     public function passwordReset()
     {
         $user =$this->Users->get($this->Auth->user('id'));
+        $user = $this->Users->get($this->Auth->user('id'));
         if (!empty($this->request->data)) {
             $user = $this->Users->patchEntity($user, [
-                'old_password'  => $this->request->data['old_password'],
-                'password'      => $this->request->data['password1'],
-                'password1'     => $this->request->data['password1'],
-                'password2'     => $this->request->data['password2']
+                'old_password' => $this->request->data['old_password'],
+                'password' => $this->request->data['password1'],
+                'password1' => $this->request->data['password1'],
+                'password2' => $this->request->data['password2']
             ],
                 ['validate' => 'password']
             );
@@ -197,6 +200,7 @@ class UsersController extends AppController
             }
         }
         $this->set('user',$user);
+        $this->set('user', $user);
     }
 
     public function beforeFilter(Event $event)

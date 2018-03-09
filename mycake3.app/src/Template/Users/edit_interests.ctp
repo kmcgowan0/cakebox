@@ -12,7 +12,7 @@
                 ['action' => 'delete', $user->id],
                 ['confirm' => __('Are you sure you want to delete # {0}?', $user->id)]
             )
-        ?></li>
+            ?></li>
         <li><?= $this->Html->link(__('List Users'), ['action' => 'index']) ?></li>
         <li><?= $this->Html->link(__('List Interests'), ['controller' => 'Interests', 'action' => 'index']) ?></li>
         <li><?= $this->Html->link(__('New Interest'), ['controller' => 'Interests', 'action' => 'add']) ?></li>
@@ -23,14 +23,7 @@
     <fieldset>
         <legend><?= __('Edit User') ?></legend>
         <?php
-        echo $this->Form->control('email');
-        echo $this->Form->control('firstname');
-        echo $this->Form->control('lastname');
-        echo $this->Form->control('dob', ['empty' => true, 'minYear' => 1950, 'maxYear' => date('Y')]);
-        echo $this->Form->control('location');
-        echo '<label for="upload">Profile picture</label>';
-        echo $this->Form->file('upload');
-            echo $this->Form->control('interests._ids', ['options' => $interests, 'multiple' => 'checkbox']);
+        echo $this->Form->control('interests._ids', ['options' => $interests, 'multiple' => 'checkbox']);
         ?>
     </fieldset>
     <?= $this->Form->button(__('Submit')) ?>

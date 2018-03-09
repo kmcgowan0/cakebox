@@ -61,11 +61,17 @@ class InterestsTable extends Table
             ->requirePresence('name', 'create')
             ->notEmpty('name');
 
+
         $validator
             ->scalar('description')
-            ->requirePresence('description', 'create')
-            ->notEmpty('description');
+            ->allowEmpty('description');
 
         return $validator;
     }
+    public function buildRules(RulesChecker $rules)
+    {
+        $rules->add($rules->isUnique(['name']));
+        return $rules;
+    }
+
 }

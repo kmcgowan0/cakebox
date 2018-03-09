@@ -23,7 +23,7 @@
         echo $this->Form->control('lastname');
         echo $this->Form->control('dob', ['empty' => true, 'minYear' => 1950, 'maxYear' => date('Y')]);
         echo $this->Form->control('location');
-        echo $this->Form->control('interests._ids', ['options' => $interests]);
+        echo $this->Form->control('interests._ids', ['options' => $interests, 'multiple' => 'checkbox']);
         ?>
     </fieldset>
     <?= $this->Form->button(__('Submit')) ?>

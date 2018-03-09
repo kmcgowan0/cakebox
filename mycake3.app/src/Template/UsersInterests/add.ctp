@@ -19,10 +19,11 @@
     <fieldset>
         <legend><?= __('Add Users Interest') ?></legend>
         <?php
-            echo $this->Form->control('user_id', ['options' => $users]);
-            echo $this->Form->control('interest_id', ['options' => $interests]);
+        echo $this->Form->input('interest_id', ['type'=>'select', 'multiple'=>'checkbox', 'options'=>$interests]);
         ?>
     </fieldset>
+    <p>Can't find your interest above?</p>
+    <?= $this->Html->link(__('Add it here'), ['controller' => 'Interests', 'action' => 'add']) ?>
     <?= $this->Form->button(__('Submit')) ?>
     <?= $this->Form->end() ?>
 </div>
