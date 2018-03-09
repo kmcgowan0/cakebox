@@ -44,18 +44,51 @@ class MessagesController extends AppController
     }
 
     public function inbox() {
+        //find all messages relating to current user
         $messages = $this->Messages->find('all', array(
             'conditions' => array(
-                'recipient' => $this->Auth->user('id')
+                'OR' => array(
+                    array('sender' => $this->Auth->user('id')),
+                    array('recipient' => $this->Auth->user('id')),
+                )
+
             )
         ));
-        $this->set('messages', $messages);
+        //find all users who have either sent or received messages relating to current user
+        $messaged = [];
+        foreach ($messages as $message) {
+            if ($message->sender != $this->Auth->user('id') && !in_array($message->sender, $messaged)) {
+                array_push($messaged, $message->sender);
+            }
+            if ($message->recipient != $this->Auth->user('id') && !in_array($message->recipient, $messaged)) {
+                array_push($messaged, $message->recipient);
+            }
+        }
+        //for each user find all related messages
+        $message_threads = [];
+        foreach ($messaged as $messaged_user) {
+            $messages_in_thread = $this->Messages->find('all', array(
+                'conditions' => array(
+                    'OR' => array(
+                        array('sender' => $messaged_user),
+                        array('recipient' => $messaged_user),
+                    )
+
+                )
+            ));
+            array_push($message_threads, $messages_in_thread);
+        }
+        $this->set(compact('messages', 'messaged', 'message_threads'));
     }
 
     public function outbox() {
         $messages = $this->Messages->find('all', array(
             'conditions' => array(
-                'sender' => $this->Auth->user('id')
+                'OR' => array(
+                    array('sender' => $this->Auth->user('id')),
+                    array('recipient' => $this->Auth->user('id')),
+                )
+
             )
         ));
         $this->set('messages', $messages);

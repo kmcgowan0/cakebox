@@ -2,6 +2,8 @@
 /**
  * @var \App\View\AppView $this
  * @var \App\Model\Entity\Message[]|\Cake\Collection\CollectionInterface $messages
+ * @var \App\Model\Entity\Message[]|\Cake\Collection\CollectionInterface $messaged
+ * @var \App\Model\Entity\Message[]|\Cake\Collection\CollectionInterface $message_threads
  */
 ?>
 <nav class="large-3 medium-4 columns" id="actions-sidebar">
@@ -22,15 +24,19 @@
         </tr>
         </thead>
         <tbody>
-        <?php foreach ($messages as $message): ?>
+        <?php foreach ($message_threads as $message_thread): ?>
             <tr>
-                <td><?= $this->Number->format($message->sender) ?></td>
-                <td><?= h($message->body) ?></td>
-                <td><?= h($message->sent) ?></td>
+                <td><?php if ($message_thread->last()->sender == $authUser['id']) : ?>
+                        Sent to <?php echo $message_thread->last()->recipient; ?>
+                    <?php elseif ($message_thread->last()->recipient == $authUser['id']) : ?>
+                        Received from <?php echo $message_thread->last()->sender; ?>
+                    <?php endif; ?></td>
+                <td><?= h($message_thread->last()->body) ?></td>
+                <td><?= h($message_thread->last()->sent) ?></td>
                 <td class="actions">
-                    <?= $this->Html->link(__('View'), ['action' => 'view', $message->id]) ?>
-                    <?= $this->Html->link(__('Edit'), ['action' => 'edit', $message->id]) ?>
-                    <?= $this->Form->postLink(__('Delete'), ['action' => 'delete', $message->id], ['confirm' => __('Are you sure you want to delete # {0}?', $message->id)]) ?>
+                    <?= $this->Html->link(__('View'), ['action' => 'view', $message_thread->last()->id]) ?>
+                    <?= $this->Html->link(__('Edit'), ['action' => 'edit', $message_thread->last()->id]) ?>
+                    <?= $this->Form->postLink(__('Delete'), ['action' => 'delete', $message_thread->last()->id], ['confirm' => __('Are you sure you want to delete # {0}?', $message_thread->last()->id)]) ?>
                 </td>
             </tr>
         <?php endforeach; ?>
