@@ -1,0 +1,11 @@
+/* Messages */
+
+.sent {
+    text-align: right;
+}
+.received {
+    text-align: left;
+}
+.timestamp {
+    font-size: 11px;
+}

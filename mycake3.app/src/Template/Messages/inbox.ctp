@@ -34,9 +34,13 @@
                 <td><?= h($message_thread->last()->body) ?></td>
                 <td><?= h($message_thread->last()->sent) ?></td>
                 <td class="actions">
-                    <?= $this->Html->link(__('View'), ['action' => 'view', $message_thread->last()->id]) ?>
-                    <?= $this->Html->link(__('Edit'), ['action' => 'edit', $message_thread->last()->id]) ?>
-                    <?= $this->Form->postLink(__('Delete'), ['action' => 'delete', $message_thread->last()->id], ['confirm' => __('Are you sure you want to delete # {0}?', $message_thread->last()->id)]) ?>
+                    <?php if ($message_thread->last()->recipient != $authUser['id']) :
+                    $thread_link = $message_thread->last()->recipient;
+                    elseif ($message_thread->last()->recipient == $authUser['id']) :
+                    $thread_link = $message_thread->last()->sender;
+endif;
+                    ?>
+                    <?= $this->Html->link(__('View'), ['action' => 'view', $thread_link]) ?>
                 </td>
             </tr>
         <?php endforeach; ?>
