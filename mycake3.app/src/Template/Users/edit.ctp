@@ -26,7 +26,7 @@
         echo $this->Form->control('email');
         echo $this->Form->control('firstname');
         echo $this->Form->control('lastname');
-        echo $this->Form->control('dob', ['empty' => true]);
+        echo $this->Form->control('dob', ['empty' => true, 'minYear' => 1950, 'maxYear' => date('Y')]);
         echo $this->Form->control('location');
         echo '<label for="upload">Profile picture</label>';
         echo $this->Form->file('upload');

@@ -91,7 +91,7 @@
             <?php foreach ($related_users as $related_user):
                 if ($related_user->id != $user->id) : ?>
                     <tr>
-                        <td><?= $this->Html->link(__($related_user->fullname), ['controller' => 'Users', 'action' => 'view', $related_user->id]) ?></td>
+                        <td><?= $this->Html->link(__($related_user->firstname), ['controller' => 'Users', 'action' => 'view', $related_user->id]) ?></td>
 
                         <td>
                             <?php foreach ($related_user->_matchingData as $matchingData) : ?>
