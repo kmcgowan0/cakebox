@@ -29,10 +29,18 @@
         echo $this->Form->control('dob', ['empty' => true, 'minYear' => 1950, 'maxYear' => date('Y')]);
         echo $this->Form->control('location');
         echo '<label for="upload">Profile picture</label>';
-        echo $this->Form->file('upload');
-            echo $this->Form->control('interests._ids', ['options' => $interests, 'multiple' => 'checkbox']);
+//        echo $this->Form->file('upload');
+//            echo $this->Form->control('interests._ids', ['options' => $interests, 'multiple' => 'checkbox']);
         ?>
+        <input type="hidden" name="interests[_ids]" value="">
+        <div id="selected-form"></div>
     </fieldset>
     <?= $this->Form->button(__('Submit')) ?>
     <?= $this->Form->end() ?>
+
+    <div id="selected"></div>
+    <div>
+        <input id="search" type="text">
+    </div>
+    <div id="results"></div>
 </div>

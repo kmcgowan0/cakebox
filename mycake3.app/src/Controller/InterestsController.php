@@ -2,6 +2,7 @@
 namespace App\Controller;
 
 use App\Controller\AppController;
+use Cake\ORM\TableRegistry;
 
 /**
  * Interests Controller
@@ -50,7 +51,10 @@ class InterestsController extends AppController
     {
         $interest = $this->Interests->newEntity();
         if ($this->request->is('post')) {
-            $interest = $this->Interests->patchEntity($interest, $this->request->getData());
+
+            $interest_data = $this->request->getData();
+            $interest_data['users._ids'] = $this->Auth->user('id');
+            $interest = $this->Interests->patchEntity($interest, $interest_data);
             if ($this->Interests->save($interest)) {
                 $this->Flash->success(__('The interest has been saved.'));
 
@@ -61,6 +65,13 @@ class InterestsController extends AppController
         $users = $this->Interests->Users->find('list', ['limit' => 200]);
         $this->set(compact('interest', 'users'));
     }
+
+    public function search() {
+        $term = $this->request->getQuery('term');
+        $interests = $this->Interests->find()->where(['name LIKE' => '%' . $term . '%']);
+        $this->set(compact('interests'));
+    }
+
 
     /**
      * Edit method
