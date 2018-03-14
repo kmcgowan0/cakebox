@@ -74,8 +74,6 @@
                 <td><?= h($interests->description) ?></td>
                 <td class="actions">
                     <?= $this->Html->link(__('View'), ['controller' => 'Interests', 'action' => 'view', $interests->id]) ?>
-                    <?= $this->Html->link(__('Edit'), ['controller' => 'Interests', 'action' => 'edit', $interests->id]) ?>
-                    <?= $this->Form->postLink(__('Delete'), ['controller' => 'Interests', 'action' => 'delete', $interests->id], ['confirm' => __('Are you sure you want to delete # {0}?', $interests->id)]) ?>
                 </td>
             </tr>
             <?php endforeach; ?>
