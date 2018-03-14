@@ -58,8 +58,6 @@ class UsersInterestsController extends AppController
                 $usersInterest = $this->UsersInterests->patchEntity($usersInterest, $this->request->getData());
 
                 if ($this->UsersInterests->save($usersInterest)) {
-                    $this->Flash->success(__('The users interest ' . $new_entry['interest_id'] . ' has been saved.'));
-
                     return $this->redirect(['action' => 'index']);
                 }
                 $this->Flash->error(__('The users interest could not be saved. Please, try again.'));
