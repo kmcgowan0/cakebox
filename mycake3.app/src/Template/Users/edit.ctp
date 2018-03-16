@@ -29,8 +29,10 @@
         echo $this->Form->control('dob', ['empty' => true, 'minYear' => 1950, 'maxYear' => date('Y')]);
         echo $this->Form->control('location');
         echo '<label for="upload">Profile picture</label>';
-        echo $this->Form->file('upload');
-//        echo $this->Form->control('interests._ids', ['options' => $interests, 'multiple' => 'checkbox']);
+        echo $this->Form->file('upload'); ?>
+
+        <h4>Top Interests</h4>
+        <?php echo $this->Form->control('interests._ids', ['options' => $top_interests, 'multiple' => 'checkbox']);
         ?>
         <div id="selected-form">
             <?php
@@ -43,12 +45,16 @@
         </div>
     </fieldset>
 
-    <div id="selected"></div>
-    <div>
+    <div class="row">
         <label>Search for interests</label>
-        <input id="search" type="text">
+        <div id="selected" class=""></div>
+        <div>
+
+            <input id="search" type="text">
+        </div>
+        <div id="results"></div>
     </div>
-    <div id="results"></div>
+
 
     <?= $this->Form->button(__('Submit')) ?>
     <?= $this->Form->end() ?>

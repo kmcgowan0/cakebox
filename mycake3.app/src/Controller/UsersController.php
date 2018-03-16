@@ -100,23 +100,65 @@ class UsersController extends AppController
                 return $this->redirect(['action' => 'index']);
             }
             $this->Flash->error(__('The user could not be saved. Please, try again.'));
-            $this->log($this);
         }
 
 
-        if (!empty($this->request->data)) {
-            if (!empty($this->request->data['upload']['name'])) {
+//        if (!empty($this->request->data)) {
+//            if (!empty($this->request->data['upload']['name'])) {
+//
+//                $file = $this->request->data['upload'];
+//                var_dump($file);
+//
+//                $ext = substr(strtolower(strrchr($file['name'], '.')), 1); //get the extension
+//                var_dump($ext);
+//                $arr_ext = ['jpg', 'png']; //set allowed extensions
+//                $setNewFileName = time() . "_" . rand(000000, 999999);
+//
+//                //only process if the extension is valid
+//                if (in_array($ext, $arr_ext)) {
+//                    //do the actual uploading of the file. First arg is the tmp name, second arg is
+//                    //where we are putting it
+//                    move_uploaded_file($file['tmp_name'], WWW_ROOT . 'img/' . $setNewFileName . '.' . $ext);
+//
+//                    //prepare the filename for database entry
+//                    $imageFileName = $setNewFileName;
+//
+//                    /*
+//                                  $image = new ImageResize('img/reports/' . $imageFileName . '.jpg');
+//                                  $image->scale(50);
+//                                  $image->save('img/reports/' . $imageFileName . '_thumb.jpg');
+//                    */
+//                }
+//            }
+//        }
 
-                $file = $this->request->data['upload'];
-                var_dump($file);
-
-                $ext = substr(strtolower(strrchr($file['name'], '.')), 1); //get the extension
-                var_dump($ext);
-                $arr_ext = ['jpg', 'png']; //set allowed extensions
-                $setNewFileName = time() . "_" . rand(000000, 999999);
 
         $interests = $this->Users->Interests->find('list', ['limit' => 200]);
-        $this->set(compact('user', 'interests'));
+
+        $users_interests = $this->Users->UsersInterests->find('all');
+        $users_interests->distinct('interest_id');
+
+        //get count of each interest
+        $number_of_interests = [];
+        foreach ($users_interests as $users_interest) {
+            $query = $this->Users->UsersInterests->find('all');
+            $query->where(['interest_id' => $users_interest['interest_id']]);
+            $number = $query->count();
+            $number_of_interests[$users_interest['interest_id']] = $number;
+        }
+        //sort by count
+        arsort($number_of_interests);
+        //take the first 4 from the array
+        $largest = array_slice($number_of_interests, 0, 4, true);
+
+        //get array of just interest ids for query
+        $top_interest_array = [];
+        foreach ($largest as $key => $value) {
+            array_push($top_interest_array, $key);
+        }
+        $top_interests = $this->Users->Interests->find('list')->where(['id IN' => $top_interest_array]);
+
+        $this->set(compact('user', 'interests', 'top_interests'));
     }
 
     public function editInterests($id = null)
@@ -139,7 +181,6 @@ class UsersController extends AppController
         $interests = $this->Users->Interests->find('list', ['limit' => 200]);
         $this->set(compact('user', 'interests'));
     }
-
 
     /**
      * Delete method
@@ -181,7 +222,6 @@ class UsersController extends AppController
 
     public function passwordReset()
     {
-        $user =$this->Users->get($this->Auth->user('id'));
         $user = $this->Users->get($this->Auth->user('id'));
         if (!empty($this->request->data)) {
             $user = $this->Users->patchEntity($user, [
@@ -199,7 +239,6 @@ class UsersController extends AppController
                 $this->Flash->error('There was an error during the save!');
             }
         }
-        $this->set('user',$user);
         $this->set('user', $user);
     }
 
