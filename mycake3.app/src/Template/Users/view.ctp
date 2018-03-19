@@ -16,7 +16,12 @@
     </ul>
 </nav>
 <div class="users view large-9 medium-8 columns content">
-    <h3><?= h($user->id) ?></h3>
+    <h3><?= h($user->firstname) ?></h3>
+    <?php if ($user->upload) : ?>
+        <img src="/img/<?= h($user->upload) ?>">
+    <?php else : ?>
+        <p>No profile picture :(</p>
+    <?php endif; ?>
     <h6><?= $this->Html->link(__('Send a message'), ['controller' => 'Messages', 'action' => 'compose', $user->id]) ?></h6>
     <h6><?= $this->Html->link(__('Reset Password'), ['action' => 'password-reset', $user->id]) ?></h6>
     <h6><?= $this->Html->link(__('Edit Account'), ['action' => 'edit', $user->id]) ?></h6>
@@ -46,16 +51,6 @@
             <th scope="row"><?= __('Location') ?></th>
             <td><?= h($user->location) ?></td>
         </tr>
-        <tr>
-            <th scope="row"><?= __('Profile picture') ?></th>
-            <?php if ($user->upload) :
-            $this->log($user->upload);
-                ?>
-            <td><?= h($user->upload) ?></td>
-            <?php else : ?>
-            <td>No profile picture :(</td>
-            <?php endif; ?>
-        </tr>
     </table>
     <div class="related">
         <h4><?= __('Related Interests') ?></h4>
@@ -81,6 +76,7 @@
         <?php endif; ?>
     </div>
 </div>
+<!-- this breaks if no mutual interests -->
 <div class="related view large-9 medium-8 columns content">
     <h4><?= __('Related Users') ?></h4>
     <?php if (!empty($related_users)): ?>
