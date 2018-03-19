@@ -27,10 +27,6 @@
             <td><?= $this->Number->format($interest->id) ?></td>
         </tr>
     </table>
-    <div class="row">
-        <h4><?= __('Description') ?></h4>
-        <?= $this->Text->autoParagraph(h($interest->description)); ?>
-    </div>
     <div class="related">
         <h4><?= __('Related Users') ?></h4>
         <?php if (!empty($interest->users)): ?>

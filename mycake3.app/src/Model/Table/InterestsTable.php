@@ -62,10 +62,6 @@ class InterestsTable extends Table
             ->notEmpty('name');
 
 
-        $validator
-            ->scalar('description')
-            ->allowEmpty('description');
-
         return $validator;
     }
     public function buildRules(RulesChecker $rules)

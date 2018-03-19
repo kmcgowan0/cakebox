@@ -24,7 +24,6 @@
         <legend><?= __('Edit Interest') ?></legend>
         <?php
             echo $this->Form->control('name');
-            echo $this->Form->control('description');
             echo $this->Form->control('users._ids', ['options' => $users]);
         ?>
     </fieldset>
