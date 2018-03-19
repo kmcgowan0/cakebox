@@ -98,6 +98,7 @@ class InterestsController extends AppController
         $this->set(compact('interest', 'users'));
     }
 
+
     /**
      * Delete method
      *

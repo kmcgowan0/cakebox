@@ -19,13 +19,37 @@
     </ul>
 </nav>
 <div class="users form large-9 medium-8 columns content">
+    <h4>Current Interests</h4>
+
+    <?php foreach ($user->interests as $interests): ?>
+            <p><?= h($interests->name) ?></p>
+    <?php endforeach; ?>
     <?= $this->Form->create($user) ?>
     <fieldset>
         <legend><?= __('Edit User') ?></legend>
-        <?php
-        echo $this->Form->control('interests._ids', ['options' => $interests, 'multiple' => 'checkbox']);
+        <h4>Top Interests</h4>
+        <?php echo $this->Form->control('interests._ids', ['options' => $top_interests, 'multiple' => 'checkbox']);
         ?>
+        <div id="selected-form">
+            <?php
+            foreach($user->interests as $interest) {
+                echo '<input type="hidden" name="interests[_ids][]" value="' . $interest->id . '">';
+            }
+            ?>
+
+
+        </div>
     </fieldset>
+
+    <div class="row">
+        <label>Search for interests</label>
+        <div id="selected" class=""></div>
+        <div>
+
+            <input id="search" type="text">
+        </div>
+        <div id="results"></div>
+    </div>
     <?= $this->Form->button(__('Submit')) ?>
     <?= $this->Form->end() ?>
 </div>
