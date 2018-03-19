@@ -49,7 +49,10 @@ class UsersController extends AppController
         }
 
         $related_users = $this->Users->find()->matching('Interests', function ($q) use ($ids) {
-            return $q->where(['Interests.id IN' => $ids]);
+            $related = $q->where(['Interests.id IN' => $ids]);
+            if ($related) {
+                return $related;
+            }
         });
 
         $this->set(compact('user', 'related_users', 'commonInterests'));
