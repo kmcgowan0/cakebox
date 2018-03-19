@@ -19,7 +19,7 @@
     </ul>
 </nav>
 <div class="users form large-9 medium-8 columns content">
-    <?= $this->Form->create($user) ?>
+    <?= $this->Form->create($user, ['enctype'=>'multipart/form-data']) ?>
     <fieldset>
         <legend><?= __('Edit User') ?></legend>
         <?php
@@ -29,8 +29,8 @@
         echo $this->Form->control('dob', ['empty' => true, 'minYear' => 1950, 'maxYear' => date('Y')]);
         echo $this->Form->control('location');
         echo '<label for="upload">Profile picture</label>';
-        echo $this->Form->file('upload'); ?>
-
+        echo $this->Form->input('upload', array('type' => 'file'));
+        ?>
         <h4>Top Interests</h4>
         <?php echo $this->Form->control('interests._ids', ['options' => $top_interests, 'multiple' => 'checkbox']);
         ?>

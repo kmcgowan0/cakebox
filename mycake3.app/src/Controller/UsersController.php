@@ -92,8 +92,32 @@ class UsersController extends AppController
             'contain' => ['Interests']
         ]);
         if ($this->request->is(['patch', 'post', 'put'])) {
-            $user = $this->Users->patchEntity($user, $this->request->getData());
-            $this->log($this->request->getData(), 'debug');
+            $user_data = $this->request->getData();
+            $imageFileName = null;
+            if (!empty($user_data['upload']['name'])) {
+                $file = $user_data['upload'];
+                $ext = substr(strtolower(strrchr($file['name'], '.')), 1); //get the extension
+                $arr_ext = ['jpg', 'png']; //set allowed extensions
+                $setNewFileName = time() . "_" . rand(000000, 999999);
+                //only process if the extension is valid
+                if (in_array($ext, $arr_ext)) {
+                    //do the actual uploading of the file. First arg is the tmp name, second arg is
+                    //where we are putting it
+                    move_uploaded_file($file['tmp_name'], WWW_ROOT . 'img/' . $setNewFileName . '.' . $ext);
+
+                    //prepare the filename for database entry
+                    $imageFileName = $setNewFileName . '.' . $ext;
+
+                    /*
+                                  $image = new ImageResize('img/reports/' . $imageFileName . '.jpg');
+                                  $image->scale(50);
+                                  $image->save('img/reports/' . $imageFileName . '_thumb.jpg');
+                    */
+                }
+                $user_data['upload'] = $imageFileName;
+            }
+            var_dump($user_data);
+            $user = $this->Users->patchEntity($user, $user_data);
             if ($this->Users->save($user)) {
                 $this->Flash->success(__('The user has been saved.'));
 
@@ -103,37 +127,6 @@ class UsersController extends AppController
         }
 
 
-//        if (!empty($this->request->data)) {
-//            if (!empty($this->request->data['upload']['name'])) {
-//
-//                $file = $this->request->data['upload'];
-//                var_dump($file);
-//
-//                $ext = substr(strtolower(strrchr($file['name'], '.')), 1); //get the extension
-//                var_dump($ext);
-//                $arr_ext = ['jpg', 'png']; //set allowed extensions
-//                $setNewFileName = time() . "_" . rand(000000, 999999);
-//
-//                //only process if the extension is valid
-//                if (in_array($ext, $arr_ext)) {
-//                    //do the actual uploading of the file. First arg is the tmp name, second arg is
-//                    //where we are putting it
-//                    move_uploaded_file($file['tmp_name'], WWW_ROOT . 'img/' . $setNewFileName . '.' . $ext);
-//
-//                    //prepare the filename for database entry
-//                    $imageFileName = $setNewFileName;
-//
-//                    /*
-//                                  $image = new ImageResize('img/reports/' . $imageFileName . '.jpg');
-//                                  $image->scale(50);
-//                                  $image->save('img/reports/' . $imageFileName . '_thumb.jpg');
-//                    */
-//                }
-//            }
-//        }
-
-
-        $interests = $this->Users->Interests->find('list', ['limit' => 200]);
 
         $users_interests = $this->Users->UsersInterests->find('all');
         $users_interests->distinct('interest_id');
