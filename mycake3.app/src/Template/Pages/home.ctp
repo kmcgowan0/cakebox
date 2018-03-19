@@ -64,6 +64,11 @@ $cakeDescription = 'CakePHP: the rapid development PHP framework';
             <br>
             <a href="/users/logout">Logout</a>
         <?php endif; ?>
+        <br>
+        <?php echo $this->Html->link(
+            'Login with Facebook',
+            ['controller' => 'SocialProfiles', 'action' => 'login', '?' => ['provider' => 'Facebook']]
+        ); ?>
     </div>
     <div class="columns large-6">
         <h4>Filesystem</h4>

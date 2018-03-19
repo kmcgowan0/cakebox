@@ -48,7 +48,8 @@ $cakeDescription = 'CakePHP: the rapid development php framework';
         <div class="top-bar-section">
             <ul class="right">
                 <li><?php if ($authUser) : ?><?= $this->Html->link(__('View Profile'), ['controller' => 'Users', 'action' => 'view', $authUser['id']]) ?><?php endif; ?></li>
-                <li><?php if ($authUser) : ?><a href="/users/logout">Logout</a><?php else : ?> <a href="/users/login">Login</a><?php endif; ?></li>
+                <li><?php if ($authUser) : ?><?= $this->Html->link(__('Logout'), ['controller' => 'Users', 'action' => 'logout']) ?><?php else : ?> <?= $this->Html->link(__('Login'), ['controller' => 'Users', 'action' => 'login']) ?><?php endif; ?></li>
+                <li><?php if (!$authUser) : ?><?= $this->Html->link(__('Create an account'), ['controller' => 'Users', 'action' => 'add']) ?><?php endif; ?></li>
                 <li><a target="_blank" href="https://book.cakephp.org/3.0/">Documentation</a></li>
                 <li><a target="_blank" href="https://api.cakephp.org/3.0/">API</a></li>
             </ul>
