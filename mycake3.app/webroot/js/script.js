@@ -9,7 +9,7 @@ $(document).ready(function(){
         console.log($(this));
         var name = $(this).text();
         var id = $(this).data('id');
-        $('#selected').append('<p>' + name + ' ' + id + '</p>');
+        $('#selected').append('<p class="columns medium-6">' + name + ' ' + id + '</p>');
         $('#selected-form').append('<input type="hidden" name="interests[_ids][]" value="' + id + '">');
     });
 
