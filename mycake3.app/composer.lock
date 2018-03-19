@@ -4,8 +4,48 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "a295a82d69253538804b8b09cdd320d0",
+    "content-hash": "c0e312e5cfa5faecece3314dfde989ca",
     "packages": [
+        {
+            "name": "admad/cakephp-hybridauth",
+            "version": "4.1.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/ADmad/CakePHP-HybridAuth.git",
+                "reference": "8334203a5343cc2e12c2984d2c94423bf609f1ad"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/ADmad/CakePHP-HybridAuth/zipball/8334203a5343cc2e12c2984d2c94423bf609f1ad",
+                "reference": "8334203a5343cc2e12c2984d2c94423bf609f1ad",
+                "shasum": ""
+            },
+            "require": {
+                "cakephp/cakephp": "~3.1",
+                "hybridauth/hybridauth": "^2.9.1"
+            },
+            "type": "cakephp-plugin",
+            "autoload": {
+                "psr-4": {
+                    "ADmad\\HybridAuth\\": "src"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "description": "A CakePHP plugin for using the HybridAuth social sign on library",
+            "homepage": "http://github.com/ADmad/CakePHP-HybridAuth",
+            "keywords": [
+                "cakephp",
+                "hybridauth",
+                "multi provider",
+                "social",
+                "social authentication",
+                "social signon"
+            ],
+            "time": "2017-03-30T08:28:39+00:00"
+        },
         {
             "name": "aura/intl",
             "version": "3.0.0",
@@ -290,6 +330,121 @@
             "time": "2017-12-24T21:09:29+00:00"
         },
         {
+            "name": "facebook/graph-sdk",
+            "version": "5.6.2",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/facebook/php-graph-sdk.git",
+                "reference": "030f8c5b9b1a6c09e71719fd638b66ea4daa2f10"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/facebook/php-graph-sdk/zipball/030f8c5b9b1a6c09e71719fd638b66ea4daa2f10",
+                "reference": "030f8c5b9b1a6c09e71719fd638b66ea4daa2f10",
+                "shasum": ""
+            },
+            "require": {
+                "php": "^5.4|^7.0"
+            },
+            "require-dev": {
+                "guzzlehttp/guzzle": "~5.0",
+                "mockery/mockery": "~0.8",
+                "phpunit/phpunit": "~4.0"
+            },
+            "suggest": {
+                "guzzlehttp/guzzle": "Allows for implementation of the Guzzle HTTP client",
+                "paragonie/random_compat": "Provides a better CSPRNG option in PHP 5"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "5.x-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Facebook\\": "src/Facebook/"
+                },
+                "files": [
+                    "src/Facebook/polyfills.php"
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "Facebook Platform"
+            ],
+            "authors": [
+                {
+                    "name": "Facebook",
+                    "homepage": "https://github.com/facebook/php-graph-sdk/contributors"
+                }
+            ],
+            "description": "Facebook SDK for PHP",
+            "homepage": "https://github.com/facebook/php-graph-sdk",
+            "keywords": [
+                "facebook",
+                "sdk"
+            ],
+            "time": "2018-02-14T23:24:51+00:00"
+        },
+        {
+            "name": "hybridauth/hybridauth",
+            "version": "v2.10.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/hybridauth/hybridauth.git",
+                "reference": "57f5a5bf677be6303cd23467e3d1d302f3f0777a"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/hybridauth/hybridauth/zipball/57f5a5bf677be6303cd23467e3d1d302f3f0777a",
+                "reference": "57f5a5bf677be6303cd23467e3d1d302f3f0777a",
+                "shasum": ""
+            },
+            "require": {
+                "ext-curl": "*",
+                "facebook/graph-sdk": "^5.4",
+                "paypal/rest-api-sdk-php": "*",
+                "php": ">=5.2.0"
+            },
+            "require-dev": {
+                "squizlabs/php_codesniffer": "2.*"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-0": {
+                    "Hybrid": "hybridauth/"
+                },
+                "classmap": [
+                    "hybridauth/Hybrid"
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "(MIT or GPL-3.0+)"
+            ],
+            "authors": [
+                {
+                    "name": "Miled",
+                    "email": "hybridauth@gmail.com"
+                }
+            ],
+            "description": "Open source social sign on PHP library.",
+            "homepage": "http://hybridauth.sourceforge.net",
+            "keywords": [
+                "OpenId",
+                "facebook",
+                "google",
+                "hybridauth",
+                "login",
+                "oauth",
+                "social",
+                "twitter",
+                "yahoo"
+            ],
+            "time": "2017-11-29T17:29:38+00:00"
+        },
+        {
             "name": "josegonzalez/dotenv",
             "version": "2.1.0",
             "source": {
@@ -450,6 +605,55 @@
                 "php mobile detect"
             ],
             "time": "2017-12-18T10:38:51+00:00"
+        },
+        {
+            "name": "paypal/rest-api-sdk-php",
+            "version": "1.13.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/paypal/PayPal-PHP-SDK.git",
+                "reference": "192e217beed14c8e75624e821fdc8ec51e2a21f5"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/paypal/PayPal-PHP-SDK/zipball/192e217beed14c8e75624e821fdc8ec51e2a21f5",
+                "reference": "192e217beed14c8e75624e821fdc8ec51e2a21f5",
+                "shasum": ""
+            },
+            "require": {
+                "ext-curl": "*",
+                "ext-json": "*",
+                "php": ">=5.3.0",
+                "psr/log": "^1.0.0"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "^4.8.35"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-0": {
+                    "PayPal": "lib/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "Apache-2.0"
+            ],
+            "authors": [
+                {
+                    "name": "PayPal",
+                    "homepage": "https://github.com/paypal/rest-api-sdk-php/contributors"
+                }
+            ],
+            "description": "PayPal's PHP SDK for REST APIs",
+            "homepage": "http://paypal.github.io/PayPal-PHP-SDK/",
+            "keywords": [
+                "payments",
+                "paypal",
+                "rest",
+                "sdk"
+            ],
+            "time": "2017-11-13T19:21:59+00:00"
         },
         {
             "name": "psr/http-message",

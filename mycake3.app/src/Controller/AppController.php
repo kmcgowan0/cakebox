@@ -37,6 +37,7 @@ class AppController extends Controller
      *
      * @return void
      */
+
     public function initialize()
     {
         parent::initialize();
@@ -44,37 +45,39 @@ class AppController extends Controller
         $this->loadComponent('RequestHandler');
         $this->loadComponent('Flash');
 
-
         $this->loadComponent('Auth', [
             'authenticate' => [
                 'Form' => [
+                    'fields' => ['username' => 'email', 'password' => 'password'],
+                ],
+                'ADmad/HybridAuth.HybridAuth' => [
+                    // All keys shown below are defaults
                     'fields' => [
-                        'username' => 'email',
-                        'password' => 'password'
-                    ]
+                        'provider' => 'provider',
+                        'openid_identifier' => 'openid_identifier',
+                        'email' => 'email'
+                    ],
+
+                    'profileModel' => 'ADmad/HybridAuth.SocialProfiles',
+                    'profileModelFkField' => 'user_id',
+
+                    'userModel' => 'Users',
+
+                    // The URL Hybridauth lib should redirect to after authentication.
+                    // If no value is specified you are redirect to this plugin's
+                    // HybridAuthController::authenticated() which handles persisting
+                    // user info to AuthComponent and redirection.
+                    'hauth_return_to' => null
                 ]
-            ],
-            'loginAction' => [
-                'controller' => 'Users',
-                'action' => 'login'
-            ],
-            // If unauthorized, return them to page they were just on
-            'unauthorizedRedirect' => $this->referer()
+            ]
         ]);
-
-
-        /*
-         * Enable the following components for recommended CakePHP security settings.
-         * see https://book.cakephp.org/3.0/en/controllers/components/security.html
-         */
-        //$this->loadComponent('Security');
-        //$this->loadComponent('Csrf');
     }
+
+
 
     public function beforeFilter(Event $event)
     {
         $this->Auth->allow(['index', 'display']);
         $this->set('authUser', $this->Auth->user());
     }
-
 }
