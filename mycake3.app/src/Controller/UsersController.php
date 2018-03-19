@@ -141,6 +141,7 @@ class UsersController extends AppController
         }
         //sort by count
         arsort($number_of_interests);
+
         //take the first 4 from the array
         $largest = array_slice($number_of_interests, 0, 4, true);
 
@@ -150,6 +151,7 @@ class UsersController extends AppController
             array_push($top_interest_array, $key);
         }
         $top_interests = $this->Users->Interests->find('list')->where(['id IN' => $top_interest_array]);
+        $interests = $this->Users->Interests->find('list', ['limit' => 200]);
 
         $this->set(compact('user', 'interests', 'top_interests'));
     }
@@ -171,8 +173,32 @@ class UsersController extends AppController
             $this->log($this);
         }
 
+        $users_interests = $this->Users->UsersInterests->find('all');
+        $users_interests->distinct('interest_id');
+
+        //get count of each interest
+        $number_of_interests = [];
+        foreach ($users_interests as $users_interest) {
+            $query = $this->Users->UsersInterests->find('all');
+            $query->where(['interest_id' => $users_interest['interest_id']]);
+            $number = $query->count();
+            $number_of_interests[$users_interest['interest_id']] = $number;
+        }
+        //sort by count
+        arsort($number_of_interests);
+
+        //take the first 4 from the array
+        $largest = array_slice($number_of_interests, 0, 4, true);
+
+        //get array of just interest ids for query
+        $top_interest_array = [];
+        foreach ($largest as $key => $value) {
+            array_push($top_interest_array, $key);
+        }
+        $top_interests = $this->Users->Interests->find('list')->where(['id IN' => $top_interest_array]);
+
         $interests = $this->Users->Interests->find('list', ['limit' => 200]);
-        $this->set(compact('user', 'interests'));
+        $this->set(compact('user', 'interests', 'top_interests'));
     }
 
     /**
