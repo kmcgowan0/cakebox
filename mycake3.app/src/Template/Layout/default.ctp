@@ -32,6 +32,7 @@ $cakeDescription = 'CakePHP: the rapid development php framework';
 
     <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
     <script src="/js/script.js"></script>
+    <script src="/js/geolocation.js"></script>
 
     <?= $this->fetch('meta') ?>
     <?= $this->fetch('css') ?>
