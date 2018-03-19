@@ -133,7 +133,7 @@ class MessagesController extends AppController
             $message = $this->Messages->patchEntity($message, $message_data);
             if ($this->Messages->save($message)) {
                 $this->Flash->success(__('Message sent'));
-                return $this->redirect(['action' => 'outbox']);
+                return $this->redirect(['action' => 'view', $recipient]);
             }
             $this->Flash->error(__('The message could not be sent. Please, try again.'));
 
