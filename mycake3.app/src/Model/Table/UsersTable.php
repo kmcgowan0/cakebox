@@ -6,6 +6,7 @@ use Cake\ORM\RulesChecker;
 use Cake\ORM\Table;
 use Cake\Auth\DefaultPasswordHasher;
 use Cake\Validation\Validator;
+use Cake\Event\Event;
 
 /**
  * Users Model
@@ -42,6 +43,26 @@ class UsersTable extends Table
             'targetForeignKey' => 'interest_id',
             'joinTable' => 'users_interests'
         ]);
+
+        $this->hasMany('ADmad/HybridAuth.SocialProfiles');
+
+        \Cake\Event\EventManager::instance()->on('HybridAuth.newUser', [$this, 'createUser']);
+    }
+
+    public function createUser(\Cake\Event\Event $event) {
+        // Entity representing record in social_profiles table
+        $profile = $event->data()['profile'];
+
+        // Make sure here that all the required fields are actually present
+
+        $user = $this->newEntity(['email' => $profile->email]);
+        $user = $this->save($user);
+
+        if (!$user) {
+            throw new \RuntimeException('Unable to save new user');
+        }
+
+        return $user;
     }
 
     /**
