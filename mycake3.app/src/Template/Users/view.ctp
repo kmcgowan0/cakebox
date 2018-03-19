@@ -52,9 +52,10 @@
             <td><?= h($user->location) ?></td>
         </tr>
     </table>
+    <?php if (!empty($user->interests)): ?>
     <div class="related">
         <h4><?= __('Related Interests') ?></h4>
-        <?php if (!empty($user->interests)): ?>
+
         <table cellpadding="0" cellspacing="0">
             <tr>
                 <th scope="col"><?= __('Id') ?></th>
@@ -66,39 +67,41 @@
             <tr>
                 <td><?= h($interests->id) ?></td>
                 <td><?= h($interests->name) ?></td>
-                <td><?= h($interests->description) ?></td>
                 <td class="actions">
                     <?= $this->Html->link(__('View'), ['controller' => 'Interests', 'action' => 'view', $interests->id]) ?>
                 </td>
             </tr>
             <?php endforeach; ?>
         </table>
-        <?php endif; ?>
+
     </div>
-</div>
-<!-- this breaks if no mutual interests -->
-<div class="related view large-9 medium-8 columns content">
-    <h4><?= __('Related Users') ?></h4>
-    <?php if (!empty($related_users)): ?>
-        <table cellpadding="0" cellspacing="0">
-            <tr>
-                <th scope="col"><?= __('Name') ?></th>
-                <th scope="col"><?= __('Common Interests') ?></th>
-            </tr>
-            <?php foreach ($related_users as $related_user):
-                if ($related_user->id != $user->id) : ?>
-                    <tr>
-                        <td><?= $this->Html->link(__($related_user->firstname), ['controller' => 'Users', 'action' => 'view', $related_user->id]) ?></td>
+    <?php endif; ?>
+    <?php if ($related_users->count()) : ?>
+        <div class="related view large-9 medium-8 columns content">
+            <h4><?= __('Related Users') ?></h4>
 
-                        <td>
-                            <?php foreach ($related_user->_matchingData as $matchingData) : ?>
+            <table cellpadding="0" cellspacing="0">
+                <tr>
+                    <th scope="col"><?= __('Name') ?></th>
+                    <th scope="col"><?= __('Common Interests') ?></th>
+                </tr>
+                <?php foreach ($related_users as $related_user):
+                    if ($related_user->id != $user->id) : ?>
+                        <tr>
+                            <td><?= $this->Html->link(__($related_user->firstname), ['controller' => 'Users', 'action' => 'view', $related_user->id]) ?></td>
 
-                                <?= h($matchingData->name) ?>
+                            <td>
+                                <?php foreach ($related_user->_matchingData as $matchingData) : ?>
 
-                            <?php endforeach; ?></td>
-                    </tr>
-                <?php endif; ?>
-            <?php endforeach; ?>
-        </table>
+                                    <?= h($matchingData->name) ?>
+
+                                <?php endforeach; ?></td>
+                        </tr>
+                    <?php endif; ?>
+                <?php endforeach; ?>
+            </table>
+
+        </div>
     <?php endif; ?>
 </div>
+<!-- this breaks if no mutual interests -->

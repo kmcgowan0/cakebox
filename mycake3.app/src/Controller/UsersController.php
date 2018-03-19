@@ -41,7 +41,7 @@ class UsersController extends AppController
             'contain' => ['Interests']
         ]);
 
-        $ids = [];
+        $ids = [-1];
 
         foreach ($user->interests as $interest) {
             $id = $interest->id;
@@ -49,10 +49,7 @@ class UsersController extends AppController
         }
 
         $related_users = $this->Users->find()->matching('Interests', function ($q) use ($ids) {
-            $related = $q->where(['Interests.id IN' => $ids]);
-            if ($related) {
-                return $related;
-            }
+            return $q->where(['Interests.id IN' => $ids]);
         });
 
         $this->set(compact('user', 'related_users', 'commonInterests'));
