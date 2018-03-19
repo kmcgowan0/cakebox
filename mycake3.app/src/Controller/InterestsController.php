@@ -53,7 +53,8 @@ class InterestsController extends AppController
         if ($this->request->is('post')) {
 
             $interest_data = $this->request->getData();
-            $interest_data['users._ids'] = $this->Auth->user('id');
+            $interest_data['name'] = ucwords($interest_data['name']);
+//            $interest_data['users._ids'] = $this->Auth->user('id');
             $interest = $this->Interests->patchEntity($interest, $interest_data);
             if ($this->Interests->save($interest)) {
                 $this->Flash->success(__('The interest has been saved.'));

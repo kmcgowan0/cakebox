@@ -29,7 +29,7 @@
                 <?php $name = ucwords($interest->name); ?>
                 <tr>
                 <td><?= $this->Number->format($interest->id) ?></td>
-                <td><?php echo $name; ?></td>
+                <td><?= $interest->name; ?></td>
                 <td class="actions">
                     <?= $this->Html->link(__('View'), ['action' => 'view', $interest->id]) ?>
                     <?= $this->Html->link(__('Edit'), ['action' => 'edit', $interest->id]) ?>
