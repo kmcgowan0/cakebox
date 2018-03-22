@@ -12,3 +12,16 @@
 .column + .column:last-child, .columns + .column:last-child, .column + .columns:last-child, .columns + .columns:last-child {
     float: left;
 }
+
+.profile-picture-small {
+    height:80px;
+    width:80px;
+    background-size: cover;
+    background-position: center;
+}
+.profile-picture-large {
+    height:300px;
+    width:300px;
+    background-size: cover;
+    background-position: center;
+}

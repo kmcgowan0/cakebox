@@ -17,11 +17,12 @@
 </nav>
 <div class="users view large-9 medium-8 columns content">
     <h3><?= h($user->firstname) ?></h3>
-    <?php if ($user->upload) : ?>
-        <img src="/img/<?= h($user->upload) ?>">
-    <?php else : ?>
-        <p>No profile picture :(</p>
-    <?php endif; ?>
+    <?php if ($user->upload) :
+        $profile_img = $user->upload;
+    else :
+        $profile_img = 'placeholder.png';
+    endif; ?>
+    <div class="profile-picture-large" style="background-image: url(/img/<?php echo $profile_img; ?>)"></div>
     <h6><?= $this->Html->link(__('Send a message'), ['controller' => 'Messages', 'action' => 'compose', $user->id]) ?></h6>
     <h6><?= $this->Html->link(__('Reset Password'), ['action' => 'password-reset', $user->id]) ?></h6>
     <h6><?= $this->Html->link(__('Edit Account'), ['action' => 'edit', $user->id]) ?></h6>
