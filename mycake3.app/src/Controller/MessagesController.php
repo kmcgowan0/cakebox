@@ -66,7 +66,15 @@ class MessagesController extends AppController
             }
         }
         $this->loadModel('Users');
-        $this->set(compact('messages_in_thread', 'message'));
+        $users = $this->Users->find()->all();
+
+        $user_array = [];
+        foreach ($users as $user) {
+            $user_array[$user['id']] = $user;
+        }
+        $sent_to_id = $id;
+
+        $this->set(compact('messages_in_thread', 'message', 'user_array', 'sent_to_id'));
     }
 
     public function inbox() {
@@ -82,6 +90,15 @@ class MessagesController extends AppController
 
             )
         ));
+
+        $this->loadModel('Users');
+        $users = $this->Users->find()->all();
+
+        $user_array = [];
+        foreach ($users as $user) {
+            $user_array[$user['id']] = $user;
+        }
+
         //find all users who have either sent or received messages relating to current user
         $messaged = [];
         foreach ($messages as $message) {
@@ -95,6 +112,7 @@ class MessagesController extends AppController
         //for each user find all related messages
         $message_threads = [];
         foreach ($messaged as $messaged_user) {
+            var_dump($messaged_user);
             $messages_in_thread = $this->Messages->find('all', array(
                 'conditions' => array(
                     'OR' => array(
@@ -104,9 +122,13 @@ class MessagesController extends AppController
 
                 )
             ));
-            array_push($message_threads, $messages_in_thread);
+            $message_threads[$messaged_user] = $messages_in_thread;
+
+//            array_push($message_threads, $messages_in_thread);
         }
-        $this->set(compact('messages', 'messaged', 'message_threads'));
+
+
+        $this->set(compact('messages', 'messaged', 'message_threads', 'user_array'));
     }
 
     public function outbox() {

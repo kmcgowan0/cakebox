@@ -4,6 +4,7 @@
  * @var \App\Model\Entity\Message[]|\Cake\Collection\CollectionInterface $messages
  * @var \App\Model\Entity\Message[]|\Cake\Collection\CollectionInterface $messaged
  * @var \App\Model\Entity\Message[]|\Cake\Collection\CollectionInterface $message_threads
+ * @var \App\Model\Entity\Message[]|\Cake\Collection\CollectionInterface $user_array
  */
 ?>
 <nav class="large-3 medium-4 columns" id="actions-sidebar">
@@ -27,9 +28,12 @@
         <?php foreach ($message_threads as $message_thread): ?>
             <tr>
                 <td><?php if ($message_thread->last()->sender == $authUser['id']) : ?>
-                        Sent to <?php echo $message_thread->last()->recipient; ?>
-                    <?php elseif ($message_thread->last()->recipient == $authUser['id']) : ?>
-                        Received from <?php echo $message_thread->last()->sender; ?>
+                        <?php $recipient_id = $message_thread->last()->recipient; ?>
+                        Sent to <?php echo $user_array[$recipient_id]['firstname']; ?>
+                    <?php elseif ($message_thread->last()->recipient == $authUser['id']) :
+                        $sender_id = $message_thread->last()->sender;
+                        ?>
+                        Received from <?php echo $user_array[$sender_id]['firstname']; ?>
                     <?php endif; ?></td>
                 <td><?= h($message_thread->last()->body) ?></td>
                 <td><?= h($message_thread->last()->sent) ?></td>
