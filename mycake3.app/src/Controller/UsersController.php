@@ -5,6 +5,7 @@ use App\Controller\AppController;
 use Cake\Event\Event;
 use Cake\Log\Log;
 use Cake\ORM\TableRegistry;
+use Cake\ORM\Association\BelongsToMany;
 
 /**
  * Users Controller
@@ -108,11 +109,11 @@ class UsersController extends AppController
                     //prepare the filename for database entry
                     $imageFileName = $setNewFileName . '.' . $ext;
 
-                    /*
-                                  $image = new ImageResize('img/reports/' . $imageFileName . '.jpg');
-                                  $image->scale(50);
-                                  $image->save('img/reports/' . $imageFileName . '_thumb.jpg');
-                    */
+
+//                                  $image = new ImageResize('img/reports/' . $imageFileName . '.jpg');
+//                                  $image->scale(50);
+//                                  $image->save('img/reports/' . $imageFileName . '_thumb.jpg');
+
                 }
                 $user_data['upload'] = $imageFileName;
             }
@@ -163,11 +164,13 @@ class UsersController extends AppController
         ]);
         if ($this->request->is(['patch', 'post', 'put'])) {
             $user = $this->Users->patchEntity($user, $this->request->getData());
-            $this->log($this->request->getData(), 'debug');
             if ($this->Users->save($user)) {
                 $this->Flash->success(__('The user has been saved.'));
-
-                return $this->redirect(['action' => 'index']);
+                if (isset($this->request->data['new-interest'])) {
+                    return $this->redirect(['controller' => 'Interests', 'action' => 'add']);
+                } else {
+                    return $this->redirect(['action' => 'index']);
+                }
             }
             $this->Flash->error(__('The user could not be saved. Please, try again.'));
             $this->log($this);
@@ -218,6 +221,15 @@ class UsersController extends AppController
             $this->Flash->error(__('The user could not be deleted. Please, try again.'));
         }
 
+        return $this->redirect(['action' => 'index']);
+    }
+
+    public function removeInterest($uid = null, $iid = null)
+    {
+        $this->request->allowMethod(['post', 'delete']);
+        $user = $this->Users->get($uid);
+        $interest = $this->Users->Interests->get($iid);
+        $this->Users->unlink($user, [$interest]);
         return $this->redirect(['action' => 'index']);
     }
 

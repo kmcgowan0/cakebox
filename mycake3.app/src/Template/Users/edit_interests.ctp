@@ -23,6 +23,12 @@
 
     <?php foreach ($user->interests as $interests): ?>
             <p><?= h($interests->name) ?></p>
+        <?= $this->Form->postLink(
+            __('Delete'),
+            ['action' => 'remove-interest', $user->id, $interests->id],
+            ['confirm' => __('Are you sure you want to delete # {0}?', $user->id, $interests->id)]
+        )
+        ?>
     <?php endforeach; ?>
     <?= $this->Form->create($user) ?>
     <fieldset>
@@ -49,7 +55,9 @@
             <input id="search" type="text">
         </div>
         <div id="results"></div>
+        <?= $this->Form->submit(('Can\'t find your interest listed? add it here'), ['name' => 'new-interest']) ?>
     </div>
-    <?= $this->Form->button(__('Submit')) ?>
+    <?= $this->Form->button(__('Submit'), ['name' => 'submit-form']) ?>
     <?= $this->Form->end() ?>
+
 </div>
