@@ -8,7 +8,6 @@ $(document).ready(function () {
     });
 
     $('#results').on('click', '.selectable', function () {
-        console.log($(this));
         var name = $(this).text();
         var id = $(this).data('id');
         $('#selected').append('<div>' +
@@ -36,7 +35,6 @@ function search(term) {
 function bindFunc() {
     $('.remove').click(function () {
         var id = $(this).attr('id');
-        console.log(id);
         $(this).parent().remove();
         $('#' + id).remove();
     });
