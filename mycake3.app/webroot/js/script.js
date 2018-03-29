@@ -19,6 +19,23 @@ $(document).ready(function () {
         bindFunc()
     });
 
+    $("#message-form").submit(function(event) {
+        event.preventDefault();
+        var $form = $( this ),
+            url = $form.attr( 'action' );
+
+        /* Send the data using post with element id name and name2*/
+        var posting = $.post( url, { body: $('#body').val() } );
+
+        /* Alerts the results */
+        posting.done(function( data ) {
+            $("#message-form")[0].reset();
+        });
+    });
+
+    // var messageId = $('#messages-id').val();
+    refreshMessages(messageId);
+
 
 });
 
@@ -28,6 +45,21 @@ function search(term) {
         data: {term: term},
         success: function (data) {
             $('#results').html(data);
+        }
+    })
+}
+
+var interval = 1000;
+function refreshMessages(messageId) {
+
+    $.get({
+        url: 'http://mycake3.app/messages/instant-messages/' + messageId,
+        success: function (data) {
+            $('#messages').html(data);
+        },
+        complete: function () {
+            // Schedule the next
+            setTimeout(refreshMessages(messageId), interval);
         }
     })
 }

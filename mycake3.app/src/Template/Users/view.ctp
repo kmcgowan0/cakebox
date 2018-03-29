@@ -105,4 +105,3 @@
         </div>
     <?php endif; ?>
 </div>
-<!-- this breaks if no mutual interests -->
