@@ -21,8 +21,13 @@ endif; ?>
                     }
                 }
                 $interest_count = count($related_interests);
+                $related_interest_str = array();
+                foreach ($related_interests as $related_interest) {
+                    $related_interest_str[] = $related_interest;
+                }
                 ?>
-<p>Interests in common with <?php echo $related_user->firstname; ?>: <?php foreach ($related_interests as $related_interest) { echo $related_interest . ', '; } ?></p>
+                <p>Interests in common with <?php echo $related_user->firstname; ?>
+                    : <?php echo implode(", ", $related_interest_str); ?></p>
 
                 <?php if ($related_user->upload) :
                     $related_profile_img = $related_user->upload;
