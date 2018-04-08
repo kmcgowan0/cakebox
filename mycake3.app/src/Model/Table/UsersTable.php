@@ -65,6 +65,12 @@ class UsersTable extends Table
         return $user;
     }
 
+    public function findAuth($query, array $options)
+    {
+        return $query
+            ->contain(['Interests']);
+    }
+
     /**
      * Default validation rules.
      *
