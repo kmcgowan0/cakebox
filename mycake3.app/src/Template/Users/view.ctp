@@ -23,7 +23,9 @@
         $profile_img = 'placeholder.png';
     endif; ?>
     <div class="profile-picture-large" style="background-image: url(/img/<?php echo $profile_img; ?>)"></div>
-    <h6><?= $this->Html->link(__('Send a message'), ['controller' => 'Messages', 'action' => 'compose', $user->id]) ?></h6>
+    <?php if ($allowed_user) { ?>
+    <h6><?= $this->Html->link(__('Send a message'), ['controller' => 'Messages', 'action' => 'view', $user->id]) ?></h6>
+    <?php } ?>
     <h6><?= $this->Html->link(__('Reset Password'), ['action' => 'password-reset', $user->id]) ?></h6>
     <h6><?= $this->Html->link(__('Edit Account'), ['action' => 'edit', $user->id]) ?></h6>
     <h6><?= $this->Html->link(__('Edit Interests'), ['action' => 'edit-interests', $user->id]) ?></h6>

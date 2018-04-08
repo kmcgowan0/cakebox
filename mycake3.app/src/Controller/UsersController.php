@@ -53,8 +53,32 @@ class UsersController extends AppController
             return $q->where(['Interests.id IN' => $ids]);
         });
 
-        $this->set(compact('user', 'related_users', 'commonInterests'));
+
+        $auth_user = $this->Auth->user();
+        $allowed_user = false;
+
+        $auth_user_interests = $auth_user['interests'];
+        $user_interests = $user->interests;
+        $intersect = array_uintersect($auth_user_interests, $user_interests, array($this, 'compareDeepValue'));
+        if ($intersect) {
+            $allowed_user = true;
+        } else {
+            $allowed_user = false;
+        }
+
+
+        //allowed user should return either true or false
+        //true if authuser and user have any matching interests
+        //true if any of the user's interests are in authusers list of interests
+        //false if not
+
+        $this->set(compact('user', 'related_users', 'allowed_user'));
         $this->set('_serialize', ['user']);
+    }
+
+    public function compareDeepValue($val1, $val2)
+    {
+        return strcmp($val1['id'], $val2['id']);
     }
 
     /**
@@ -117,7 +141,6 @@ class UsersController extends AppController
                 }
                 $user_data['upload'] = $imageFileName;
             }
-            var_dump($user_data);
             $user = $this->Users->patchEntity($user, $user_data);
             if ($this->Users->save($user)) {
                 $this->Flash->success(__('The user has been saved.'));
@@ -126,7 +149,6 @@ class UsersController extends AppController
             }
             $this->Flash->error(__('The user could not be saved. Please, try again.'));
         }
-
 
 
         $users_interests = $this->Users->UsersInterests->find('all');

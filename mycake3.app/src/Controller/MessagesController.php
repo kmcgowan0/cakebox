@@ -151,7 +151,6 @@ class MessagesController extends AppController
         //for each user find all related messages
         $message_threads = [];
         foreach ($messaged as $messaged_user) {
-            var_dump($messaged_user);
             $messages_in_thread = $this->Messages->find('all', array(
                 'conditions' => array(
                     'OR' => array(
