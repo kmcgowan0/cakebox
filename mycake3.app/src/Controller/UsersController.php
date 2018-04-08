@@ -273,6 +273,38 @@ class UsersController extends AppController
         $this->set('user', $user);
     }
 
+    public function connections($id = null)
+    {
+        $user = $this->Users->get($id, [
+            'contain' => ['Interests']
+        ]);
+
+        $ids = [-1];
+
+        foreach ($user->interests as $interest) {
+            $id = $interest->id;
+            array_push($ids, $id);
+        }
+
+        $related_users_interests = $this->Users->find()->matching('Interests', function ($q) use ($ids) {
+            return $q->where(['Interests.id IN' => $ids]);
+        });
+
+
+        //empty array of matching data
+        $user_matching_data = array();
+
+        //foreach users interest entry add the matching data to an array
+        foreach ($related_users_interests as $related_users_interest) {
+            array_push($user_matching_data, $related_users_interest->_matchingData);
+        }
+
+        $distinct_users = $related_users_interests->group('user_id');
+
+        $this->set(compact('user', 'user_matching_data', 'distinct_users'));
+        $this->set('_serialize', ['user']);
+    }
+
     public function beforeFilter(Event $event)
     {
         parent::beforeFilter($event);

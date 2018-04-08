@@ -25,3 +25,10 @@
     background-size: cover;
     background-position: center;
 }
+.main-user {
+    height: 100px;
+    width:100px;
+    background-size: cover;
+    background-position: center;
+    margin: 2em auto;
+}
