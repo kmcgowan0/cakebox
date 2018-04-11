@@ -1,3 +1,4 @@
+
 <?php if ($user->upload) :
     $profile_img = $user->upload;
 else :
@@ -34,14 +35,39 @@ endif; ?>
                 else :
                     $related_profile_img = 'placeholder.png';
                 endif; ?>
-                <a href="/messages/view/<?= $related_user->id ?>">
+                <a href="#" data-open="modal-<?php echo $related_user->id; ?>" data-id="<?php echo $related_user->id; ?>" class="reveal-link">
                     <div class="related-user main-user"
                          style="border: solid #000 <?php echo $interest_count; ?>px; background-image: url(/img/<?php echo $related_profile_img; ?>)">
                         <p><?= h($related_user->firstname) ?></p>
                     </div>
                 </a>
-            <?php endif; ?>
-        <?php endforeach; ?>
+
+                <div class="reveal" id="modal-<?php echo $related_user->id; ?>" data-reveal>
+                    <div class="profile-small" style="background-image: url(/img/<?php echo $related_profile_img; ?>)"></div>
+                    <div id="messages<?php echo $related_user->id; ?>"></div>
+                    <div class="messages-in-view">
+                        <?= $this->Form->create($message, ['id' => 'message-form']) ?>
+                        <fieldset>
+                            <?php
+                            echo $this->Form->input('body', ['type' => 'text', 'label' => false, 'id' => 'body']);
+                            echo $this->Form->hidden('recipient', ['value' => $related_user->id]);
+                            ?>
+                        </fieldset>
+                        <?= $this->Form->button(__('Send')) ?>
+                        <?= $this->Form->end() ?>
+                    </div>
+                    <h2 id="modalTitle">Awesome. I have it. <?php echo $related_user->id; ?></h2>
+                    <p class="lead">Your couch.  It is mine.</p>
+                    <p>I'm a cool paragraph that lives inside of an even cooler modal. Wins!</p>
+                    <button class="close-button" data-close aria-label="Close modal" type="button">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+
+
+            <?php endif;
+        endforeach; ?>
 
     </div>
 <?php endif; ?>
+

@@ -295,8 +295,9 @@ class UsersController extends AppController
         $this->set('user', $user);
     }
 
-    public function connections($id = null)
+    public function connections()
     {
+        $id = $this->Auth->user('id');
         $user = $this->Users->get($id, [
             'contain' => ['Interests']
         ]);
@@ -304,8 +305,8 @@ class UsersController extends AppController
         $ids = [-1];
 
         foreach ($user->interests as $interest) {
-            $id = $interest->id;
-            array_push($ids, $id);
+            $interest_id = $interest->id;
+            array_push($ids, $interest_id);
         }
 
         $related_users_interests = $this->Users->find()->matching('Interests', function ($q) use ($ids) {
@@ -323,7 +324,27 @@ class UsersController extends AppController
 
         $distinct_users = $related_users_interests->group('user_id');
 
-        $this->set(compact('user', 'user_matching_data', 'distinct_users'));
+
+
+        $this->loadModel('Messages');
+
+        //sending messages from within message view
+        $message = $this->Messages->newEntity();
+        if ($this->request->is('post')) {
+
+            $message_data = $this->request->getData();
+            $message_data['sender'] = $id;
+            //$message_data['recipient'] = $id;
+            $message_data['sent'] = date('Y-m-d h:i');
+            $message = $this->Messages->patchEntity($message, $message_data);
+            if ($this->Messages->save($message)) {
+                $this->Flash->success(__('Message sent'));
+            } else {
+                $this->Flash->error(__('The message could not be sent. Please, try again.'));
+            }
+        }
+
+        $this->set(compact('user', 'user_matching_data', 'distinct_users', 'message'));
         $this->set('_serialize', ['user']);
     }
 

@@ -65,6 +65,7 @@ class MessagesController extends AppController
                 $this->Flash->error(__('The message could not be sent. Please, try again.'));
             }
         }
+
         $this->loadModel('Users');
         $users = $this->Users->find()->all();
 
