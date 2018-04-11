@@ -43,7 +43,14 @@ endif; ?>
                 </a>
 
                 <div class="reveal" id="modal-<?php echo $related_user->id; ?>" data-reveal>
-                    <div class="profile-small" style="background-image: url(/img/<?php echo $related_profile_img; ?>)"></div>
+                    <div class="profile-info row">
+                        <div class="profile-picture-small small-2 columns" style="background-image: url(/img/<?php echo $related_profile_img; ?>)"></div>
+                        <div class="small-10 columns">
+                        <h4><?= h($related_user->firstname) ?></h4>
+                        <p>You both like <?php echo implode(", ", $related_interest_str); ?></p>
+                        </div>
+                    </div>
+
                     <div id="messages<?php echo $related_user->id; ?>"></div>
                     <div class="messages-in-view">
                         <?= $this->Form->create($message, ['id' => 'message-form']) ?>
@@ -56,9 +63,6 @@ endif; ?>
                         <?= $this->Form->button(__('Send')) ?>
                         <?= $this->Form->end() ?>
                     </div>
-                    <h2 id="modalTitle">Awesome. I have it. <?php echo $related_user->id; ?></h2>
-                    <p class="lead">Your couch.  It is mine.</p>
-                    <p>I'm a cool paragraph that lives inside of an even cooler modal. Wins!</p>
                     <button class="close-button" data-close aria-label="Close modal" type="button">
                         <span aria-hidden="true">&times;</span>
                     </button>
