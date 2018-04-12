@@ -17,8 +17,7 @@
     <fieldset>
         <legend><?= __('Add Interest') ?></legend>
         <?php
-            echo $this->Form->control('name');
-            echo $this->Form->hidden('users._ids', ['value' => $authUser]);
+        echo $this->Form->control('name');
         ?>
     </fieldset>
     <?= $this->Form->button(__('Submit')) ?>
