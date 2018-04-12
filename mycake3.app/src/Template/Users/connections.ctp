@@ -53,7 +53,7 @@ endif; ?>
 
                     <div id="messages<?php echo $related_user->id; ?>"></div>
                     <div class="messages-in-view">
-                        <?= $this->Form->create($message, ['id' => 'message-form']) ?>
+                        <?= $this->Form->create($message, ['data-id' => $related_user->id, 'class' => 'message-form']) ?>
                         <fieldset>
                             <?php
                             echo $this->Form->input('body', ['type' => 'text', 'label' => false, 'id' => 'body']);

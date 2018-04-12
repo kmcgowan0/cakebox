@@ -21,7 +21,22 @@ $(document).ready(function () {
     $('.reveal-link').on('click', function () {
         var liveMessageId = $(this).data('id');
         connectionMessages(liveMessageId);
+
+        $('.message-form').submit(function (event) {
+            console.log(liveMessageId);
+            event.preventDefault();
+            var $form = $(this),
+                url = $form.attr('action');
+
+            var posting = $.post(url, {body: $('#body').val()});
+
+            posting.done(function (data) {
+                $('.message-form')[0].reset();
+            });
+        });
     });
+
+
 
     $("#message-form").submit(function (event) {
         event.preventDefault();
