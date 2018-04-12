@@ -44,7 +44,7 @@ $(document).ready(function () {
 
 function search(term) {
     $.get({
-        url: 'http://mycake3.app/interests/search',
+        url: '/interests/search',
         data: {term: term},
         success: function (data) {
             $('#results').html(data);
@@ -69,7 +69,7 @@ function refreshMessages(messageId) {
 
 function connectionMessages(messageId) {
     $.get({
-        url: 'http://mycake3.app/messages/instant-messages/' + messageId,
+        url: '/messages/instant-messages/' + messageId,
         success: function (data) {
             $('#messages'+messageId).html(data);
         },
