@@ -33,7 +33,7 @@
                     else :
                         $profile_img = 'placeholder.png';
                     endif; ?>
-                    <div class="profile-picture-small" style="background-image: url(/img/<?php echo $profile_img; ?>)">
+                    <div class="profile-picture-small profile-picture" style="background-image: url(/img/<?php echo $profile_img; ?>)">
 
                     </div>
                 </td>

@@ -1,10 +1,9 @@
-
 <?php if ($user->upload) :
     $profile_img = $user->upload;
 else :
     $profile_img = 'placeholder.png';
 endif; ?>
-    <div class="main-user" style="background-image: url(/img/<?php echo $profile_img; ?>)"></div>
+<div class="main-user profile-picture" style="background-image: url(/img/<?php echo $profile_img; ?>)"></div>
 
 
 <?php if ($distinct_users->count()) : ?>
@@ -35,8 +34,9 @@ endif; ?>
                 else :
                     $related_profile_img = 'placeholder.png';
                 endif; ?>
-                <a href="#" data-open="modal-<?php echo $related_user->id; ?>" data-id="<?php echo $related_user->id; ?>" class="reveal-link">
-                    <div class="related-user main-user"
+                <a href="#" data-open="modal-<?php echo $related_user->id; ?>"
+                   data-id="<?php echo $related_user->id; ?>" class="reveal-link">
+                    <div class="related-user main-user profile-picture"
                          style="border: solid #000 <?php echo $interest_count; ?>px; background-image: url(/img/<?php echo $related_profile_img; ?>)">
                         <p><?= h($related_user->firstname) ?></p>
                     </div>
@@ -44,10 +44,14 @@ endif; ?>
 
                 <div class="reveal" id="modal-<?php echo $related_user->id; ?>" data-reveal>
                     <div class="profile-info row">
-                        <div class="profile-picture-small small-2 columns" style="background-image: url(/img/<?php echo $related_profile_img; ?>)"></div>
-                        <div class="small-10 columns">
-                        <h4><?= h($related_user->firstname) ?></h4>
-                        <p>You both like <?php echo implode(", ", $related_interest_str); ?></p>
+                        <div class="profile-picture-small profile-picture small-2 columns"
+                             style="background-image: url(/img/<?php echo $related_profile_img; ?>)"></div>
+                        <div class="small-10 medium-8 columns">
+                            <h4><?= h($related_user->firstname) ?></h4>
+                            <p>You both like <?php echo implode(", ", $related_interest_str); ?></p>
+                        </div>
+                        <div class="small-10 medium-2 columns">
+                            <?= $this->Html->link(__('Full Conversation'), ['controller' => 'messages', 'action' => 'view', $related_user->id]) ?>
                         </div>
                     </div>
 

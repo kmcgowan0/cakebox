@@ -22,7 +22,7 @@
     else :
         $profile_img = 'placeholder.png';
     endif; ?>
-    <div class="profile-picture-large" style="background-image: url(/img/<?php echo $profile_img; ?>)"></div>
+    <div class="profile-picture-large profile-picture" style="background-image: url(/img/<?php echo $profile_img; ?>)"></div>
     <?php if ($allowed_user) { ?>
     <h6><?= $this->Html->link(__('Send a message'), ['controller' => 'Messages', 'action' => 'view', $user->id]) ?></h6>
     <?php } ?>
