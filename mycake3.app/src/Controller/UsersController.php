@@ -53,18 +53,10 @@ class UsersController extends AppController
             return $q->where(['Interests.id IN' => $ids]);
         });
 
+        $this->loadComponent('Allowed');
 
         $auth_user = $this->Auth->user();
-        $allowed_user = false;
-
-        $auth_user_interests = $auth_user['interests'];
-        $user_interests = $user->interests;
-        $intersect = array_uintersect($auth_user_interests, $user_interests, array($this, 'compareDeepValue'));
-        if ($intersect) {
-            $allowed_user = true;
-        } else {
-            $allowed_user = false;
-        }
+        $allowed_user = $this->Allowed->checkAllowed($user, $auth_user);
 
 
         //allowed user should return either true or false
