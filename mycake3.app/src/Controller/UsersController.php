@@ -258,11 +258,12 @@ class UsersController extends AppController
 
     public function login()
     {
+        $redirect_url = '/users/connections';
         if ($this->request->is('post')) {
             $user = $this->Auth->identify();
             if ($user) {
                 $this->Auth->setUser($user);
-                return $this->redirect($this->Auth->redirectUrl());
+                return $this->redirect($redirect_url);
             }
             $this->Flash->error('Your username or password is incorrect.');
         }
