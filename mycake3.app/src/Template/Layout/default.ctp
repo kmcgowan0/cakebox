@@ -26,11 +26,11 @@ $cakeDescription = 'CakePHP: the rapid development php framework';
     </title>
     <?= $this->Html->meta('icon') ?>
 
+    <?= $this->Html->css('foundation.min.css') ?>
+    <?= $this->Html->css('app.css') ?>
     <?= $this->Html->css('base.css') ?>
     <?= $this->Html->css('cake.css') ?>
     <?= $this->Html->css('style.css') ?>
-    <?= $this->Html->css('foundation.min.css') ?>
-    <?= $this->Html->css('app.css') ?>
 
     <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
     <script src="/js/script.js"></script>
