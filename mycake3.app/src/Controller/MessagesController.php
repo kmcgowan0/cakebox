@@ -67,7 +67,9 @@ class MessagesController extends AppController
         }
 
         $this->loadModel('Users');
-        $users = $this->Users->find()->all();
+        $users = $this->Users->find('all', [
+            'contain' => ['Interests']
+        ]);
 
         $user_array = [];
         foreach ($users as $user) {
@@ -75,7 +77,13 @@ class MessagesController extends AppController
         }
         $sent_to_id = $id;
 
-        $this->set(compact('messages_in_thread', 'message', 'user_array', 'sent_to_id'));
+        $user =$user_array[$sent_to_id];
+        $this->loadComponent('Allowed');
+
+        $auth_user = $this->Auth->user();
+        $allowed_user = $this->Allowed->checkAllowed($user, $auth_user);
+
+        $this->set(compact('messages_in_thread', 'message', 'user_array', 'sent_to_id', 'allowed_user'));
     }
 
     public function instantMessages($id = null) {
