@@ -84,7 +84,7 @@ function refreshMessages(messageId) {
 
 function connectionMessages(messageId) {
     $.get({
-        url: '/messages/instant-messages/' + messageId,
+        url: '/messages/connection-messages/' + messageId,
         success: function (data) {
             $('#messages'+messageId).html(data);
         },
