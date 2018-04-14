@@ -315,7 +315,7 @@ class UsersController extends AppController
             array_push($user_matching_data, $related_users_interest->_matchingData);
         }
 
-        $distinct_users = $related_users_interests->group('user_id');
+        $distinct_users = $related_users_interests->group('user_id')->limit('4')->order('location', 'ASC');
 
 
 

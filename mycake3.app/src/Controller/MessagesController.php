@@ -125,6 +125,48 @@ class MessagesController extends AppController
         $this->set(compact('messages_in_thread', 'message', 'user_array', 'sent_to_id'));
     }
 
+    public function connectionMessages($id = null) {
+        //get all messages from this user
+        $messages_in_thread = $this->Messages->find('all', array(
+            'conditions' => array(
+                'OR' => array(
+                    array('sender' => $id, 'recipient' => $this->Auth->user('id')),
+                    array('recipient' => $id, 'sender' => $this->Auth->user('id')),
+                )
+
+            ),
+            'order' => array('sent' => 'DESC')
+        ))->limit('5');
+
+        $messages_in_thread_array = $messages_in_thread->toArray();
+        $messages_in_thread_ordered = array_reverse($messages_in_thread_array);
+        //sending messages from within message view
+        $message = $this->Messages->newEntity();
+        if ($this->request->is('post')) {
+
+            $message_data = $this->request->getData();
+            $message_data['sender'] = $this->Auth->user('id');
+            $message_data['recipient'] = $id;
+            $message_data['sent'] = date('Y-m-d h:i');
+            $message = $this->Messages->patchEntity($message, $message_data);
+            if ($this->Messages->save($message)) {
+                $this->Flash->success(__('Message sent'));
+            } else {
+                $this->Flash->error(__('The message could not be sent. Please, try again.'));
+            }
+        }
+        $this->loadModel('Users');
+        $users = $this->Users->find()->all();
+
+        $user_array = [];
+        foreach ($users as $user) {
+            $user_array[$user['id']] = $user;
+        }
+        $sent_to_id = $id;
+
+        $this->set(compact('messages_in_thread_ordered', 'message', 'user_array', 'sent_to_id'));
+    }
+
     public function inbox() {
 
 
