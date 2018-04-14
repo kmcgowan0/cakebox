@@ -43,6 +43,20 @@ class InterestsTable extends Table
         ]);
     }
 
+    public function isInList($interest)
+    {
+        $filename = 'http://mycake3.app/files/badwords.txt';
+        $lines = file($filename, FILE_IGNORE_NEW_LINES);
+        $interest_string = strtolower($interest);
+        $interest_words = explode(' ', $interest_string);
+
+        if (array_intersect($lines, $interest_words)) {
+            return false;
+        } else {
+            return true;
+        }
+    }
+
     /**
      * Default validation rules.
      *
@@ -62,8 +76,17 @@ class InterestsTable extends Table
             ->notEmpty('name');
 
 
+        $validator->add('name', 'custom', [
+            'rule' => [$this, 'isInList'],
+            'message' => 'That\'s a bad word'
+        ]);
+
+
         return $validator;
     }
+
+
+
     public function buildRules(RulesChecker $rules)
     {
         $rules->add($rules->isUnique(['name']));
