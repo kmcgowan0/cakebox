@@ -24,6 +24,30 @@ class UsersController extends AppController
      */
     public function index()
     {
+        $term = $this->request->query('term');
+
+        $this->paginate = [
+            'contain' => ['interests']
+        ];
+
+
+        if (!empty($term)) {
+//            [
+//                $query = $this->Users->find()->contain(['interests'])->where(['interests.name LIKE ' => '%' . $term . '%'])
+//            ];
+        }
+
+        $users = $this->Users;
+        $some_users = $this->Users->find('all', [
+            'contain' => ['Interests'],
+            'conditions' => ['Interests.name LIKE' => $term]
+        ]);
+
+        $query = $users->find()->matching('Interests', function ($q) use ($term) {
+            return $q->where(['Interests.name LIKE' => $term ]);
+        });
+
+
         $users = $this->paginate($this->Users);
 
         $this->set(compact('users'));
