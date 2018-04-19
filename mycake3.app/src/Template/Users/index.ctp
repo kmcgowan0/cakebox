@@ -28,18 +28,25 @@
             <th scope="col"><?= $this->Paginator->sort('lastname') ?></th>
             <th scope="col"><?= $this->Paginator->sort('dob') ?></th>
             <th scope="col"><?= $this->Paginator->sort('location') ?></th>
+            <th scope="col"><?= $this->Paginator->sort('interests') ?></th>
             <th scope="col" class="actions"><?= __('Actions') ?></th>
         </tr>
         </thead>
         <tbody>
-        <?php foreach ($users as $user): ?>
+        <?php foreach ($users as $user):
+            $interests = array();
+            foreach ($user->interests as $interest) {
+                $interests[] = $interest->name;
+            } ?>
+
             <tr>
                 <td><?php if ($user->upload) :
                         $profile_img = $user->upload;
                     else :
                         $profile_img = 'placeholder.png';
                     endif; ?>
-                    <div class="profile-picture-small profile-picture" style="background-image: url(/img/<?php echo $profile_img; ?>)">
+                    <div class="profile-picture-small profile-picture"
+                         style="background-image: url(/img/<?php echo $profile_img; ?>)">
 
                     </div>
                 </td>
@@ -47,6 +54,8 @@
                 <td><?= h($user->lastname) ?></td>
                 <td><?= h($user->dob) ?></td>
                 <td><?= h($user->location) ?></td>
+                <td><?php echo implode(", ", $interests); ?>
+                </td>
                 <td class="actions">
                     <?= $this->Html->link(__('View'), ['action' => 'view', $user->id]) ?>
                     <?php if ($authUser['id'] == $user->id) : ?>
