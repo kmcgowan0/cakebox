@@ -87,8 +87,13 @@ class UsersController extends AppController
         //true if authuser and user have any matching interests
         //true if any of the user's interests are in authusers list of interests
         //false if not
+if ($auth_user == $id) {
+    $my_profile = true;
+} else {
+    $my_profile = false;
+}
 
-        $this->set(compact('user', 'related_users', 'allowed_user'));
+        $this->set(compact('user', 'related_users', 'allowed_user', 'my_profile'));
         $this->set('_serialize', ['user']);
     }
 

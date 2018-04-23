@@ -22,13 +22,16 @@
     else :
         $profile_img = 'placeholder.png';
     endif; ?>
-    <div class="profile-picture-large profile-picture" style="background-image: url(/img/<?php echo $profile_img; ?>)"></div>
+    <div class="profile-picture-large profile-picture"
+         style="background-image: url(/img/<?php echo $profile_img; ?>)"></div>
     <?php if ($allowed_user) { ?>
-    <h6><?= $this->Html->link(__('Send a message'), ['controller' => 'Messages', 'action' => 'view', $user->id]) ?></h6>
+        <h6><?= $this->Html->link(__('Send a message'), ['controller' => 'Messages', 'action' => 'view', $user->id]) ?></h6>
     <?php } ?>
-    <h6><?= $this->Html->link(__('Reset Password'), ['action' => 'password-reset', $user->id]) ?></h6>
-    <h6><?= $this->Html->link(__('Edit Account'), ['action' => 'edit', $user->id]) ?></h6>
-    <h6><?= $this->Html->link(__('Edit Interests'), ['action' => 'edit-interests', $user->id]) ?></h6>
+    <?php if ($my_profile == true) { ?>
+        <h6><?= $this->Html->link(__('Reset Password'), ['action' => 'password-reset', $user->id]) ?></h6>
+        <h6><?= $this->Html->link(__('Edit Account'), ['action' => 'edit', $user->id]) ?></h6>
+        <h6><?= $this->Html->link(__('Edit Interests'), ['action' => 'edit-interests', $user->id]) ?></h6>
+    <?php } ?>
     <table class="vertical-table">
         <tr>
             <th scope="row"><?= __('Email') ?></th>
@@ -56,28 +59,36 @@
         </tr>
     </table>
     <?php if (!empty($user->interests)): ?>
-    <div class="related">
-        <h4><?= __('Related Interests') ?></h4>
+        <div class="related">
+            <h4><?= __('Related Interests') ?></h4>
 
-        <table cellpadding="0" cellspacing="0">
-            <tr>
-                <th scope="col"><?= __('Id') ?></th>
-                <th scope="col"><?= __('Name') ?></th>
-                <th scope="col"><?= __('Description') ?></th>
-                <th scope="col" class="actions"><?= __('Actions') ?></th>
-            </tr>
-            <?php foreach ($user->interests as $interests): ?>
-            <tr>
-                <td><?= h($interests->id) ?></td>
-                <td><?= h($interests->name) ?></td>
-                <td class="actions">
-                    <?= $this->Html->link(__('View'), ['controller' => 'Interests', 'action' => 'view', $interests->id]) ?>
-                </td>
-            </tr>
-            <?php endforeach; ?>
-        </table>
+            <table cellpadding="0" cellspacing="0">
+                <tr>
+                    <th scope="col"><?= __('Id') ?></th>
+                    <th scope="col"><?= __('Name') ?></th>
+                    <th scope="col"><?= __('Description') ?></th>
+                    <th scope="col" class="actions"><?= __('Actions') ?></th>
+                </tr>
+                <?php foreach ($user->interests as $interests): ?>
+                    <tr>
+                        <td><?= h($interests->id) ?></td>
+                        <td><?= h($interests->name) ?></td>
+                        <td class="actions">
+                            <?= $this->Html->link(__('View'), ['controller' => 'Interests', 'action' => 'view', $interests->id]) ?>
+                        </td>
+                    </tr>
+                <?php endforeach; ?>
+            </table>
 
-    </div>
+        </div>
+    <?php else : ?>
+        <?php if ($my_profile == true) { ?>
+            <div class="related">
+                <p>It doesn't look like you have any interests currently listed.</p>
+                <h6><?= $this->Html->link(__('Add some'), ['action' => 'edit-interests', $user->id]) ?></h6>
+
+            </div>
+        <?php } ?>
     <?php endif; ?>
     <?php if ($related_users->count()) : ?>
         <div class="related view large-9 medium-8 columns content">
