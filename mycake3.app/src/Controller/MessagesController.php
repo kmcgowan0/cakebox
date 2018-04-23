@@ -74,10 +74,9 @@ class MessagesController extends AppController
             $message_data = $this->request->getData();
             $message_data['sender'] = $this->Auth->user('id');
             $message_data['recipient'] = $id;
-            $message_data['sent'] = date('Y-m-d h:i');
+            $message_data['sent'] = date('Y-m-d H:i');
             $message = $this->Messages->patchEntity($message, $message_data);
             if ($this->Messages->save($message)) {
-                $this->Flash->success(__('Message sent'));
             } else {
                 $this->Flash->error(__('The message could not be sent. Please, try again.'));
             }
@@ -94,16 +93,17 @@ class MessagesController extends AppController
         }
         $sent_to_id = $id;
 
-        $user =$user_array[$sent_to_id];
+        $user = $user_array[$sent_to_id];
         $this->loadComponent('Allowed');
 
         $auth_user = $this->Auth->user();
         $allowed_user = $this->Allowed->checkAllowed($user, $auth_user);
 
-        $this->set(compact('messages_in_thread', 'message', 'user_array', 'sent_to_id', 'allowed_user'));
+        $this->set(compact('messages_in_thread', 'message', 'user_array', 'sent_to_id', 'allowed_user', 'update_query'));
     }
 
-    public function instantMessages($id = null) {
+    public function instantMessages($id = null)
+    {
         //get all messages from this user
         $messages_in_thread = $this->Messages->find('all', array(
             'conditions' => array(
@@ -122,10 +122,9 @@ class MessagesController extends AppController
             $message_data = $this->request->getData();
             $message_data['sender'] = $this->Auth->user('id');
             $message_data['recipient'] = $id;
-            $message_data['sent'] = date('Y-m-d h:i');
+            $message_data['sent'] = date('Y-m-d H:i');
             $message = $this->Messages->patchEntity($message, $message_data);
             if ($this->Messages->save($message)) {
-                $this->Flash->success(__('Message sent'));
             } else {
                 $this->Flash->error(__('The message could not be sent. Please, try again.'));
             }
@@ -142,7 +141,8 @@ class MessagesController extends AppController
         $this->set(compact('messages_in_thread', 'message', 'user_array', 'sent_to_id'));
     }
 
-    public function connectionMessages($id = null) {
+    public function connectionMessages($id = null)
+    {
         //get all messages from this user
         $messages_in_thread = $this->Messages->find('all', array(
             'conditions' => array(
@@ -164,10 +164,9 @@ class MessagesController extends AppController
             $message_data = $this->request->getData();
             $message_data['sender'] = $this->Auth->user('id');
             $message_data['recipient'] = $id;
-            $message_data['sent'] = date('Y-m-d h:i');
+            $message_data['sent'] = date('Y-m-d H:i');
             $message = $this->Messages->patchEntity($message, $message_data);
             if ($this->Messages->save($message)) {
-                $this->Flash->success(__('Message sent'));
             } else {
                 $this->Flash->error(__('The message could not be sent. Please, try again.'));
             }
@@ -184,7 +183,8 @@ class MessagesController extends AppController
         $this->set(compact('messages_in_thread_ordered', 'message', 'user_array', 'sent_to_id'));
     }
 
-    public function inbox() {
+    public function inbox()
+    {
 
 
         //find all messages relating to current user
@@ -197,6 +197,9 @@ class MessagesController extends AppController
 
             )
         ));
+
+//        $messages = $this->paginate($messages);
+
 
         $this->loadModel('Users');
         $users = $this->Users->find()->all();
@@ -237,7 +240,8 @@ class MessagesController extends AppController
         $this->set(compact('messages', 'messaged', 'message_threads', 'user_array'));
     }
 
-    public function outbox() {
+    public function outbox()
+    {
         $messages = $this->Messages->find('all', array(
             'conditions' => array(
                 'OR' => array(
@@ -250,17 +254,17 @@ class MessagesController extends AppController
         $this->set('messages', $messages);
     }
 
-    public function compose($recipient = null) {
+    public function compose($recipient = null)
+    {
         $message = $this->Messages->newEntity();
         if ($this->request->is('post')) {
 
             $message_data = $this->request->getData();
             $message_data['sender'] = $this->Auth->user('id');
             $message_data['recipient'] = $recipient;
-            $message_data['sent'] = date('Y-m-d h:i');
+            $message_data['sent'] = date('Y-m-d H:i');
             $message = $this->Messages->patchEntity($message, $message_data);
             if ($this->Messages->save($message)) {
-                $this->Flash->success(__('Message sent'));
                 return $this->redirect(['action' => 'view', $recipient]);
             }
             $this->Flash->error(__('The message could not be sent. Please, try again.'));
@@ -271,6 +275,7 @@ class MessagesController extends AppController
         $this->set(compact('message', 'recipients'));
 
     }
+
     /**
      * Edit method
      *
@@ -286,8 +291,6 @@ class MessagesController extends AppController
         if ($this->request->is(['patch', 'post', 'put'])) {
             $message = $this->Messages->patchEntity($message, $this->request->getData());
             if ($this->Messages->save($message)) {
-                $this->Flash->success(__('The message has been saved.'));
-
                 return $this->redirect(['action' => 'index']);
             }
             $this->Flash->error(__('The message could not be saved. Please, try again.'));
@@ -309,7 +312,6 @@ class MessagesController extends AppController
         $this->request->allowMethod(['post', 'delete']);
         $message = $this->Messages->get($id);
         if ($this->Messages->delete($message)) {
-            $this->Flash->success(__('The message has been deleted.'));
         } else {
             $this->Flash->error(__('The message could not be deleted. Please, try again.'));
         }
@@ -338,3 +340,4 @@ class MessagesController extends AppController
         $this->set(compact('message', 'seen', 'unread_messages', 'notifications'));
     }
 }
+
