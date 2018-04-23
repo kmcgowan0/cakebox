@@ -64,6 +64,10 @@ class MessagesTable extends Table
             ->dateTime('sent')
             ->allowEmpty('sent');
 
+        $validator
+            ->boolean('seen')
+            ->allowEmpty('seen');
+
         return $validator;
     }
 }

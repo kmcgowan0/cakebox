@@ -14,6 +14,7 @@ class MessagesController extends AppController
 {
 
     public $uses = array('Messages', 'Users');
+
     /**
      * Index method
      *
@@ -39,6 +40,8 @@ class MessagesController extends AppController
     public function view($id = null)
     {
 
+        //update seen to true in here
+
         //get all messages from this user
         $messages_in_thread = $this->Messages->find('all', array(
             'conditions' => array(
@@ -49,6 +52,20 @@ class MessagesController extends AppController
 
             )
         ));
+
+        $received_messages = $this->Messages->find('all', array(
+            'conditions' => array(
+                    array('recipient' => $this->Auth->user('id')),
+            )
+        ));
+
+
+        $update_query = $received_messages;
+        $update_query->update()
+            ->set(['seen' => true])
+            ->where(['sender' => $id])
+            ->execute();
+
 
         //sending messages from within message view
         $message = $this->Messages->newEntity();
@@ -298,5 +315,26 @@ class MessagesController extends AppController
         }
 
         return $this->redirect(['action' => 'index']);
+    }
+
+    public function unreadMessages()
+    {
+        $messages = $this->Messages->find('all', array(
+            'conditions' => array(
+                    array('recipient' => $this->Auth->user('id')),
+            )
+        ));
+
+        $unread_messages = array();
+        foreach ($messages as $message) {
+            $seen = $message['seen'];
+
+            if ($seen == false || $seen == null) {
+                array_push($unread_messages, $message['id']);
+            }
+        }
+
+        $notifications = count($unread_messages);
+        $this->set(compact('message', 'seen', 'unread_messages', 'notifications'));
     }
 }

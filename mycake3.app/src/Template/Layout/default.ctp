@@ -52,7 +52,8 @@ $cakeDescription = 'CakePHP: the rapid development php framework';
         <ul class="right">
             <?php if ($authUser) : ?>
                 <li><?= $this->Html->link(__('View Profile'), ['controller' => 'Users', 'action' => 'view', $authUser['id']]) ?></li>
-                <li><?= $this->Html->link(__('Messages'), ['controller' => 'Messages', 'action' => 'inbox']) ?></li>
+                <!-- number of notifications -->
+                <li><?= $this->Html->link(__('Messages'), ['controller' => 'Messages', 'action' => 'inbox']) ?><span id="notifications"></span></li>
                 <li><?= $this->Html->link(__('Logout'), ['controller' => 'Users', 'action' => 'logout']) ?></li>
             <?php else : ?>
                 <li><?= $this->Html->link(__('Login'), ['controller' => 'Users', 'action' => 'login']) ?></li>
